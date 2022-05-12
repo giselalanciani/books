@@ -17,11 +17,39 @@
         <label for="authorname">Author name</label>
         <input type="text" name="authorname" />
 
+        <label for="Year">Year</label>
+        <select name="year" id="year">
+          <option value="">seleccione..</option>
+        </select>
+
+        <label for="Month">Month</label>
+
+        <select name="month" id="month">
+          <option value="">seleccione..</option>
+        </select>
+
+        <label for="Day">Day</label>
+
+        <select name="day" id="day">
+          <option value="">seleccione..</option>
+        </select>
+
         <button id="create-author-button" type="button">Create</button>
       </form>
     </main>
 
+    <template id="day-template">
+      <option value="seleccione">seleccione..</option>
+    </template>
+
+    <template id="year-template">
+      <option value="seleccione">seleccione..</option>
+    </template>
+
+    <template id="month-template">
+      <option value="seleccione">seleccione..</option>
+    </template>
+
     <script src="/assets/scripts/createAuthorsBundle.js"></script>
-    
   </body>
 </html>
