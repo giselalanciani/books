@@ -32,8 +32,13 @@ class ListAuthorsController {
         true
       );
 
-      const authorNameInput = copyRowTemplate.querySelector("[name='name']");
-      authorNameInput.textContent = authorsList[i].name;
+      const authorNameTd = copyRowTemplate.querySelector("[name='name']");
+      authorNameTd.textContent = authorsList[i].name;
+
+      const authorBirthateTd = copyRowTemplate.querySelector("[name='birthdate']");
+      const birthdate =  new Date (authorsList[i].birthdate);
+
+      authorBirthateTd.textContent = birthdate.toLocaleString();      
 
       const editAuthorButton = copyRowTemplate.querySelector(
         "[name='edit-author-button']"
