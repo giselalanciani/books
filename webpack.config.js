@@ -14,6 +14,9 @@ module.exports = {
     authorsBundle: "./src/controllers/authors/list-authors-controller.js",
     createAuthorsBundle: "./src/controllers/authors/create-authors-controller.js",
     editAuthorsBundle: "./src/controllers/authors/edit-authors-controller.js",
+    countriesBundle: "./src/controllers/countries/list-country-controller.js",
+    createCountryBundle:"./src/controllers/countries/create-country-controller.js",
+    
    
   },
   output: {
