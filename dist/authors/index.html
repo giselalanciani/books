@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Authors</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <a href="/">Home</a> > Authors
-        <h1>Authors</h1>
-      </header>
-  
-      <button id="create-button" type="button">Create</button>
+      <a href="/">Home</a> > Authors
+      <h1>Authors</h1>
+    </header>
 
-      <table id="author-table">
-        <tr>
-          <th>Name</th>
-          <th>Birthdate</th>
-          <th>Actions</th>
-        </tr>      
-      </table>
-  
-      <template id="author-row-template">
-        <tr>
-          <td name="name"></td>
-          <td name="birthdate"></td>
-          <td>
-            <button name="edit-author-button" type="button">Edit</button>
-            <button name="delete-author-button" type="button">Delete</button>
-          </td>
-        </tr>
-      </template>
+    <button id="create-button" type="button">Create</button>
 
-      <script src="/assets/scripts/authorsBundle.js"></script>
-  
-</body>
+    <table id="author-table">
+      <tr>
+        <th>Name</th>
+        <th>Birthdate</th>
+        <th>Actions</th>
+      </tr>
+
+      <main>
+        <p id="Activity-indication-message">
+          Espere por favor, cargando datos...
+        </p>
+      </main>
+    </table>
+
+    <template id="author-row-template">
+      <tr>
+        <td name="name"></td>
+        <td name="birthdate"></td>
+        <td>
+          <button name="edit-author-button" type="button">Edit</button>
+          <button name="delete-author-button" type="button">Delete</button>
+        </td>
+      </tr>
+    </template>
+
+    <script src="/assets/scripts/authorsBundle.js"></script>
+  </body>
 </html>
