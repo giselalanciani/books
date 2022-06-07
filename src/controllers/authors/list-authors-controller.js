@@ -20,6 +20,13 @@ class ListAuthorsController {
         error
       );
     }
+    this.removeActivityIndicationMessage();
+  }
+  removeActivityIndicationMessage() {
+    const waitingIndicationMessage = document.getElementById(
+      "Activity-indication-message"
+    );
+    waitingIndicationMessage.remove();
   }
 
   renderAuthors(authorsList) {
