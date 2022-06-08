@@ -82,11 +82,19 @@ class ListBooksController {
     } catch (error) {
       errorHandler("no hay libros disponibles, intente luego", error);
     }
+    this.removeActivityIndicationMessage();
   }
 
   removeWaitingMessageRow() {
     const waitingMessageRow = document.getElementById("waiting-message-row");
     waitingMessageRow.remove();
+  }
+
+  removeActivityIndicationMessage() {
+    const waitingIndicationMessage = document.getElementById(
+      "Activity-indication-message"
+    );
+    waitingIndicationMessage.remove();
   }
 
   renderBooks(booksData, editorialsData) {
@@ -134,11 +142,11 @@ class ListBooksController {
   }
 
   findEditorialNameById(id, editorialsList) {
-    let editorialNameFound = "Editorial no encontrada";    
+    let editorialNameFound = "Editorial no encontrada";
 
     for (let i = 0; i < editorialsList.length; i++) {
       if (id == editorialsList[i].id) {
-        editorialNameFound = editorialsList[i].name
+        editorialNameFound = editorialsList[i].name;
         break;
       }
     }
