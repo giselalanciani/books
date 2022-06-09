@@ -21,8 +21,14 @@ class ListEditorialController {
     } catch (error) {
       errorHandler("No podemos encontrar los datos, intente nuevamente", error);
     }
+    this.removeActivityIndicationMessage();
   }
-
+  removeActivityIndicationMessage() {
+    const waitingIndicationMessage = document.getElementById(
+      "Activity-indication-message"
+    );
+    waitingIndicationMessage.remove();
+  }
   renderEditorials(editorialsList) {
     const editorialTable = document.getElementById("editorial-table");
     const editorialRowTemplate = document.getElementById(
