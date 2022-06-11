@@ -12,21 +12,27 @@ class ListAuthorsController {
 
   async init() {
     try {
-      const responseAuthorsData = await this.authorsService.getAuthors();
-      this.renderAuthors(responseAuthorsData);
+      const authorsDataList = await this.authorsService.getAuthors();
+      this.removeWaitingMessageRow();
+
+      if (authorsDataList.length === 0) {
+        const elementNoAuthorsAvailableMessage = document.querySelector(
+          "#no-authors-available"
+        );
+        elementNoAuthorsAvailableMessage.setAttribute("class", "");
+      }
+
+      this.renderAuthors(authorsDataList);
     } catch (error) {
       errorHandler(
         "No se pudieron cargar los datos de los autores, intentente mas tarde",
         error
       );
     }
-    this.removeActivityIndicationMessage();
   }
-  removeActivityIndicationMessage() {
-    const waitingIndicationMessage = document.getElementById(
-      "Activity-indication-message"
-    );
-    waitingIndicationMessage.remove();
+  removeWaitingMessageRow() {
+    const waitingMessageRow = document.getElementById("waiting-message-row");
+    waitingMessageRow.remove();
   }
 
   renderAuthors(authorsList) {
@@ -42,10 +48,11 @@ class ListAuthorsController {
       const authorNameTd = copyRowTemplate.querySelector("[name='name']");
       authorNameTd.textContent = authorsList[i].name;
 
-      const authorBirthateTd = copyRowTemplate.querySelector("[name='birthdate']");
-      const birthdate =  new Date (authorsList[i].birthdate);
+      const authorBirthateTd =
+        copyRowTemplate.querySelector("[name='birthdate']");
+      const birthdate = new Date(authorsList[i].birthdate);
 
-      authorBirthateTd.textContent = birthdate.toLocaleString();      
+      authorBirthateTd.textContent = birthdate.toLocaleString();
 
       const editAuthorButton = copyRowTemplate.querySelector(
         "[name='edit-author-button']"
