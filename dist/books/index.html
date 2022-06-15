@@ -18,36 +18,31 @@
     </header>
 
     <main>
-      <p id="Activity-indication-message">
-        Espere por favor, cargando datos...
-      </p>
+      <button id="create-button" type="button">Create</button>
+
+      <table id="books-table">
+        <tr>
+          <th>Name</th>
+          <th>Year</th>
+          <th>Authors</th>
+          <th>Editorial</th>
+          <th>Actions</th>
+        </tr>
+        <tr class="hidden" id="no-books-available">
+          <td colspan="5">No books available</td>
+        </tr>
+        <tr id="waiting-message-row">
+          <td colspan="5">Espere por favor, cargando datos...</td>
+        </tr>
+      </table>
     </main>
-
-
-    <button id="create-button" type="button">Create</button>
-
-    <table id="books-table">
-      <tr>
-        <th>Name</th>
-        <th>Year</th>
-        <th>Authors</th>
-        <th>Editorial</th>
-        <th>Actions</th>
-      </tr>
-      <tr class="hidden" id="no-books-available">
-        <td colspan="5">No books available</td>
-      </tr>
-      <tr id="waiting-message-row">
-        <td colspan="5">Espere por favor, cargando datos...</td>
-      </tr>
-    </table>
 
     <template id="book-row-template">
       <tr>
         <td name="name"></td>
         <td name="year"></td>
         <td name="author"></td>
-        <td name="editorial"></td>        
+        <td name="editorial"></td>
 
         <td name="actions">
           <button name="edit-book-button" type="button">Edit</button>
