@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Countries</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -12,19 +17,22 @@
       <h1>Countries</h1>
     </header>
     <main>
-      <p id="Activity-indication-message">
-        Espere por favor, cargando datos...
-      </p>
+      <button id="create-button" type="button">Create</button>
+
+      <table id="country-table">
+        <tr>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+
+        <tr class="hidden" id="no-countries-available">
+          <td colspan="2">No countries available</td>
+        </tr>
+        <tr id="waiting-message-row">
+          <td colspan="2">Espere por favor, cargando datos...</td>
+        </tr>
+      </table>
     </main>
-    <button id="create-button" type="button">Create</button>
-
-    <table id="country-table">
-      <tr>
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
-    </table>
-
     <template id="country-row-template">
       <tr>
         <td name="name"></td>
