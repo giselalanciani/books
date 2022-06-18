@@ -76,25 +76,16 @@ class ListBooksController {
         elementNoBooksAvailableMessage.setAttribute("class", "");
       }
 
-      const editorialsData = await this.editorialService.getEditorials();
-      this.renderBooks(booksDataList, editorialsData);
+      this.renderBooks(booksDataList);
       this.removeWaitingMessageRow();
     } catch (error) {
-      errorHandler("no hay libros disponibles, intente luego", error);
+      errorHandler("No podemos encontrar los datos, intente nuevamente", error);
     }
-    this.removeActivityIndicationMessage();
   }
 
   removeWaitingMessageRow() {
     const waitingMessageRow = document.getElementById("waiting-message-row");
     waitingMessageRow.remove();
-  }
-
-  removeActivityIndicationMessage() {
-    const waitingIndicationMessage = document.getElementById(
-      "Activity-indication-message"
-    );
-    waitingIndicationMessage.remove();
   }
 
   renderBooks(booksData, editorialsData) {
