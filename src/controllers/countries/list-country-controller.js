@@ -2,9 +2,9 @@ import { CountryServices } from "../../services/country-service";
 import { errorHandler } from "../../utils/error-handler";
 
 class ListCountryController {
-  countryServices;
-  constructor(countryServices) {
-    this.countryServices = countryServices;
+  countryService;
+  constructor(countryService) {
+    this.countryService = countryService;
     const createButton = document.getElementById("create-button");
     createButton.addEventListener("click", this.onClickCreateButton);
   }
@@ -49,18 +49,23 @@ class ListCountryController {
 
   async init() {
     try {
-      const responseCountriesData = await this.countryServices.getCountries();
-      this.renderCountries(responseCountriesData);
+      const countriesDataList = await this.countryService.getCountries();
+      if (countriesDataList.length === 0) {
+        const elementNoCountriesAvailableMessage = document.querySelector(
+          "#no-countries-available"
+        );
+        elementNoCountriesAvailableMessage.setAttribute("class", "");
+      }
+
+      this.renderCountries(countriesDataList);
+      this.removeWaitingMessageRow();
     } catch (error) {
       errorHandler("No podemos encontrar los datos, intente nuevamente", error);
     }
-    this.removeActivityIndicationMessage();
   }
-  removeActivityIndicationMessage() {
-    const waitingIndicationMessage = document.getElementById(
-      "Activity-indication-message"
-    );
-    waitingIndicationMessage.remove();
+  removeWaitingMessageRow() {
+    const waitingMessageRow = document.getElementById("waiting-message-row");
+    waitingMessageRow.remove();
   }
 }
 
