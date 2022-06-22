@@ -14,28 +14,30 @@ class ListEditorialController {
   }
   async init() {
     try {
+      const editorialsDataList = await this.editorialService.getEditorials();
+      this.removeWaitingMessageRow();
+      if (editorialsDataList.length === 0) {
+        const elementNoEditorialsAvailableMessage = document.querySelector(
+          "#no-editorials-available"
+        );
+        elementNoEditorialsAvailableMessage.setAttribute("class", "");
+      }
       const responseEditorialsData =
         await this.editorialService.getEditorials();
-
       this.renderEditorials(responseEditorialsData);
     } catch (error) {
       errorHandler("No podemos encontrar los datos, intente nuevamente", error);
     }
-    this.removeActivityIndicationMessage();
   }
-  removeActivityIndicationMessage() {
-    const waitingIndicationMessage = document.getElementById(
-      "Activity-indication-message"
-    );
-    waitingIndicationMessage.remove();
+  removeWaitingMessageRow() {
+    const waitingMessageRow = document.getElementById("waiting-message-row");
+    waitingMessageRow.remove();
   }
   renderEditorials(editorialsList) {
     const editorialTable = document.getElementById("editorial-table");
     const editorialRowTemplate = document.getElementById(
       "editorial-row-template"
     );
-
-    console.log("editorialList", editorialsList);
 
     for (let i = 0; i < editorialsList.length; i++) {
       const copyRowTemplate = document.importNode(
