@@ -50,38 +50,43 @@ class ListBooksController {
   };
 
   onClickEditButton = async (event) => {
-    console.log(
-      "el id de su libro es: ",
+      console.log(
+      "el nombre de su libro es: ",
       event.target.getAttribute("data-id"),
       event.type
     );
     window.location.href = `http://localhost:8080/books/edit/?id=${event.target.getAttribute(
       "data-id"
     )}`;
-  };
+
+  }
 
   async init() {
     const data = await this.getBooksData();
+    this.removeWaitingMessageRow();
     this.renderBooks(data);
   }
 
-  async getBooksData () {
+  async getBooksData() {
     const response = await fetch(`http://localhost:3000/api/book`);
     if (!response.ok) {
-      throw new Error("Failed to fetch from dogs API.");
+      throw new Error("Failed to fetch from book API.");
     }
     return await response.json();
   }
 
+  removeWaitingMessageRow() {
+    const waitingMessageRow = document.getElementById("waiting-message-row");
+    waitingMessageRow.remove();
+  }
 
   renderBooks(booksData) {
     const bookTable = document.getElementById("books-table");
     const bookRowTemplate = document.getElementById("book-row-template");
 
-    console.log("booksData",booksData );
+    console.log("booksData", booksData);
 
     for (let i = 0; i < booksData.length; i++) {
-
       const copyRowTemplate = document.importNode(
         bookRowTemplate.content,
         true
@@ -107,9 +112,7 @@ class ListBooksController {
       deleteBookButton.setAttribute("data-name", booksData[i].name);
       deleteBookButton.addEventListener("click", this.onClickDeleteButton);
 
-
       bookTable.append(copyRowTemplate);
-    
     }
   }
 }
