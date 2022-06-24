@@ -1,4 +1,3 @@
-
 /**
  * Que debe hacer:
  *  1) Cuando la pagina inicia.
@@ -8,9 +7,9 @@
  *              - en cada iteracion hacer una copia de ese template.
  *              - hacer los reemplazos de los datos en cada columna de ese tr
  *              - hacer un append, dentro de la tabla
- * 
- * 
- * 
+ *
+ *
+ *
  */
 class ListBooksController {
   constructor() {
@@ -21,7 +20,47 @@ class ListBooksController {
     window.location.href = "/books/create";
   };
 
-  async init () {
+  onClickDeleteButton = async (event) => {
+    if (
+      confirm(
+        `Quiere eliminar su libro: ${event.target.getAttribute("data-name")} ?`
+      ) == true
+    ) {
+      const deleteResponse = await fetch(
+        `http://localhost:3000/api/book/${event.target.getAttribute(
+          "data-id"
+        )}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!deleteResponse.ok) {
+        throw new Error("No se pudo eliminar su libro");
+      } else {
+        alert("El libro fue eliminado exitosamente!");
+        window.location.href = "http://localhost:8080/books/";
+      }
+    } else {
+      console.log("You canceled!");
+    }
+  };
+
+  onClickEditButton = async (event) => {
+    console.log(
+      "el id de su libro es: ",
+      event.target.getAttribute("data-id"),
+      event.type
+    );
+    window.location.href = `http://localhost:8080/books/edit/?id=${event.target.getAttribute(
+      "data-id"
+    )}`;
+  };
+
+  async init() {
     const data = await this.getBooksData();
     this.renderBooks(data);
   }
