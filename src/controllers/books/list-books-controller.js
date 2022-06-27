@@ -41,7 +41,7 @@ class ListBooksController {
       if (!deleteResponse.ok) {
         throw new Error("No se pudo eliminar su libro");
       } else {
-        alert("El libro fue eliminado exitosamente!");
+        // alert("El libro fue eliminado exitosamente!");
         window.location.href = "http://localhost:8080/books/";
       }
     } else {
@@ -50,7 +50,7 @@ class ListBooksController {
   };
 
   onClickEditButton = async (event) => {
-      console.log(
+    console.log(
       "el nombre de su libro es: ",
       event.target.getAttribute("data-id"),
       event.type
@@ -58,13 +58,18 @@ class ListBooksController {
     window.location.href = `http://localhost:8080/books/edit/?id=${event.target.getAttribute(
       "data-id"
     )}`;
-
-  }
+  };
 
   async init() {
-    const data = await this.getBooksData();
+    const booksDataList = await this.getBooksData();
+    if (booksDataList.length === 0) {
+      const elementNoBooksAvailableMessage = document.querySelector(
+        "#no-books-available"
+      );
+      elementNoBooksAvailableMessage.setAttribute("class", "");
+    }
     this.removeWaitingMessageRow();
-    this.renderBooks(data);
+    this.renderBooks(booksDataList);
   }
 
   async getBooksData() {

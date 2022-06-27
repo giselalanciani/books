@@ -1,5 +1,3 @@
-
-
 class EditBooksController {
   constructor() {
     const saveButton = document.getElementById("save-book-button");
@@ -35,23 +33,34 @@ class EditBooksController {
   };
 
   async init() {
+    
     const response = await fetch(
-        `http://localhost:3000/api/book/${this.getQueryParams().id}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch the book.");
-      }
-      const data = await response.json();
+      `http://localhost:3000/api/book/${this.getQueryParams().id}`
+    );
 
-  
-      console.log("data", data);
-  
-      const bookInput = document.querySelector("[name='bookname']");
-      bookInput.value = data.name;
-      const yearInput = document.querySelector("[name='year']");
-      yearInput.value = data.year;
+    if (!response.ok) {
+      throw new Error("Failed to fetch the book.");
     }
+    const data = await response.json();
+    this.removeActivityIndicationMessage();
 
+    console.log("data", data);
+
+    const bookInput = document.querySelector("[name='bookname']");
+    bookInput.value = data.name;
+    const yearInput = document.querySelector("[name='year']");
+    yearInput.value = data.year;
+  }
+
+  removeActivityIndicationMessage() {
+    const waitingIndicationMessage = document.getElementById(
+      "Activity-indication-message"
+    );
+    waitingIndicationMessage.remove();
+
+    const editBookForm = document.querySelector("[name='edit-book-form']");
+    editBookForm.setAttribute("class", "");
+  }
 }
 
 const editCtrl = new EditBooksController();

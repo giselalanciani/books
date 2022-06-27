@@ -12,14 +12,27 @@
       <h1>Create Book</h1>
     </header>
     <main>
-      <form name="create-user-form" >
+      <form name="create-user-form">
         <label for="bookname">Book name</label>
         <input type="text" name="bookname" />
         <label for="year">Year</label>
         <input type="year" name="year" />
+
+        <label for="authors">authors</label>
+
+        <select name="authors" id="authors">
+          <option value="seleccione">seleccione..</option>          
+          
+        </select>
+
+        
         <button id="create-book-button" type="button">Create</button>
       </form>
-      </main>
+    </main>
     <script src="/assets/scripts/createBundle.js"></script>
+
+    <template id="author-option-template">
+      <option value="seleccione">seleccione..</option>
+    </template>
   </body>
 </html>

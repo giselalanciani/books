@@ -33,6 +33,19 @@ class CreateBooksController {
     }
   };
 
+  async init() {
+    const bookAuthors = await fetch("http://localhost:3000/api/author", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const content = await bookAuthors.json();
+
+    this.renderAuthors(content);
+  }
+
   sendData = async () => {
     console.log("enviamos la informacion");
 
@@ -53,6 +66,29 @@ class CreateBooksController {
     alert("Libro creado");
     window.location.href = "/books";
   };
+
+  renderAuthors(authorsDataList) {
+    const authorsSelect = document.getElementById("authors");
+
+    const authorOptionTemplate = document.getElementById(
+      "author-option-template"
+    );
+
+    for (let i = 0; i < authorsDataList.length; i++) {
+      const copyAuthorOptionTemplate = document.importNode(
+        authorOptionTemplate.content,
+        true
+      );
+
+      const newAuthorOption = copyAuthorOptionTemplate.querySelector("option");
+
+      newAuthorOption.textContent = `${authorsDataList[i].name}`;
+      newAuthorOption.setAttribute("value", `${authorsDataList[i].id}`);
+
+      authorsSelect.append(newAuthorOption);
+    }
+  }
 }
 
 const createCtrl = new CreateBooksController();
+createCtrl.init();

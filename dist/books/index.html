@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Books</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -19,6 +24,9 @@
         <th>Name</th>
         <th>Year</th>
         <th>Action</th>
+      </tr>
+      <tr class="hidden" id="no-books-available">
+        <td colspan="3">No books available</td>
       </tr>
       <tr id="waiting-message-row">
         <td colspan="3">Espere por favor, cargando datos...</td>

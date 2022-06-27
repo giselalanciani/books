@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit book</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -12,7 +17,10 @@
       <h1>Edit book</h1> 
     </header>
     <main>
-      <form name="edit-book-form" >
+      <p id="Activity-indication-message">
+        Espere por favor, cargando datos...
+      </p>
+      <form class="hidden" name="edit-book-form">
         <label for="bookname">Book name</label>
         <input type="text" name="bookname" />
         <label for="year">Year</label>
