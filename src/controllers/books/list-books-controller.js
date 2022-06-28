@@ -104,6 +104,10 @@ class ListBooksController {
         "td"
       )[1].textContent = `${booksData[i].year}`;
 
+      copyRowTemplate.querySelectorAll(
+        "td"
+      )[2].textContent = `${booksData[i].author}`;
+
       const editBookButton = copyRowTemplate.querySelector(
         "[name='edit-book-button']"
       );

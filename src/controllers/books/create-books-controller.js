@@ -33,7 +33,12 @@ class CreateBooksController {
     }
   };
 
-  async init() {
+  async init() {  
+    const content = await this.getAuthors();
+    this.renderAuthors(content);
+  }
+
+  async getAuthors () {
     const bookAuthors = await fetch("http://localhost:3000/api/author", {
       method: "GET",
       headers: {
@@ -43,7 +48,7 @@ class CreateBooksController {
     });
     const content = await bookAuthors.json();
 
-    this.renderAuthors(content);
+    return content;
   }
 
   sendData = async () => {

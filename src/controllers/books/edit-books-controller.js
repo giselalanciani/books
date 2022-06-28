@@ -13,6 +13,7 @@ class EditBooksController {
   onClickSaveButton = async (event) => {
     const bookNameInput = document.querySelector("[name='bookname']");
     const bookYearInput = document.querySelector("[name='year']");
+    const authorsSelectorInput = document.querySelector("[name='authors']");
 
     const saveButton = await fetch(
       `http://localhost:3000/api/book/${this.getQueryParams().id}`,
@@ -25,12 +26,35 @@ class EditBooksController {
         body: JSON.stringify({
           name: bookNameInput.value,
           year: bookYearInput.value,
+          author: authorsSelectorInput.value
         }),
       }
     );
     alert("Su libro fue guardado correctamente");
     window.location.href = "/books";
   };
+
+  renderAuthors(authorsDataList) {
+    const authorsSelect = document.getElementById("authors");
+
+    const authorOptionTemplate = document.getElementById(
+      "author-option-template"
+    );
+
+    for (let i = 0; i < authorsDataList.length; i++) {
+      const copyAuthorOptionTemplate = document.importNode(
+        authorOptionTemplate.content,
+        true
+      );
+
+      const newAuthorOption = copyAuthorOptionTemplate.querySelector("option");
+
+      newAuthorOption.textContent = `${authorsDataList[i].name}`;
+      newAuthorOption.setAttribute("value", `${authorsDataList[i].name}`);
+
+      authorsSelect.append(newAuthorOption);
+    }
+  }
 
   async init() {
     
@@ -46,10 +70,29 @@ class EditBooksController {
 
     console.log("data", data);
 
+    const content = await this.getAuthors();
+    this.renderAuthors(content);
+
+
     const bookInput = document.querySelector("[name='bookname']");
     bookInput.value = data.name;
     const yearInput = document.querySelector("[name='year']");
     yearInput.value = data.year;
+    const authorsSelect = document.querySelector("[name='authors']");
+    authorsSelect.value = data.author;
+  }
+
+  async getAuthors () {
+    const bookAuthors = await fetch("http://localhost:3000/api/author", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const content = await bookAuthors.json();
+
+    return content;
   }
 
   removeActivityIndicationMessage() {

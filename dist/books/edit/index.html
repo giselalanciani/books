@@ -14,7 +14,7 @@
   <body>
     <header>
       <a href="/">Home</a> > <a href="/books">Books</a> > Edit book
-      <h1>Edit book</h1> 
+      <h1>Edit book</h1>
     </header>
     <main>
       <p id="Activity-indication-message">
@@ -25,9 +25,21 @@
         <input type="text" name="bookname" />
         <label for="year">Year</label>
         <input type="year" name="year" />
+
+        <label for="authors">authors</label>
+
+        <select name="authors" id="authors">
+          <option value="seleccione">seleccione..</option>
+        </select>
+
         <button id="save-book-button" type="button">Save</button>
       </form>
-      </main>
+    </main>
+
+    <template id="author-option-template">
+      <option value="seleccione">seleccione..</option>
+    </template>
+    
     <script src="/assets/scripts/editBundle.js"></script>
   </body>
 </html>
