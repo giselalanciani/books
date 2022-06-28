@@ -1,5 +1,14 @@
+import { AuthorsService } from "../../services/authors-service";
+import { EditorialService } from "../../services/editorial-service";
+
 class EditBooksController {
-  constructor() {
+  editorialService;
+  authorsService;
+
+  constructor(editorialService, authorsService) {
+    this.editorialService = editorialService;
+    this.authorsService = authorsService;
+
     const saveButton = document.getElementById("save-book-button");
     saveButton.addEventListener("click", this.onClickSaveButton);
   }
@@ -84,9 +93,8 @@ class EditBooksController {
   async init() {
     
     const bookData = await this.getBookData();    
-    const authorsData = await this.getAuthors();
-    const editoriasData = await this.getEditorials();
-    
+    const authorsData = await this.authorsService.getAuthors();
+    const editoriasData = await this.editorialService.getEditorials();    
     
     this.renderAuthors(authorsData);
     this.renderEditorials(editoriasData);
@@ -116,31 +124,6 @@ class EditBooksController {
     return  await response.json();
   }
 
-  async getAuthors () {
-    const bookAuthors = await fetch("http://localhost:3000/api/author", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    const content = await bookAuthors.json();
-
-    return content;
-  }
-
-  async getEditorials () {
-    const bookEditorial = await fetch("http://localhost:3000/api/editorial", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    const content = await bookEditorial.json();
-
-    return content;
-  }
 
   removeActivityIndicationMessage() {
     const waitingIndicationMessage = document.getElementById(
@@ -153,5 +136,7 @@ class EditBooksController {
   }
 }
 
-const editCtrl = new EditBooksController();
+
+
+const editCtrl = new EditBooksController(new EditorialService(), new AuthorsService());
 editCtrl.init();

@@ -1,3 +1,6 @@
+import { AuthorsService } from "../../services/authors-service";
+import { EditorialService } from "../../services/editorial-service";
+
 /**
  * 1) El boton salvar
  *      Al hacer click ->
@@ -20,7 +23,13 @@
  *
  */
 class CreateBooksController {
-  constructor() {
+  editorialsService;
+  authorsService;
+
+  constructor(editorialsService, authorsService) {
+    this.editorialsService = editorialsService;
+    this.authorsService = authorsService;
+
     const createBookButton = document.getElementById("create-book-button");
     createBookButton.addEventListener("click", this.onClickCreateBookButton);
   }
@@ -32,40 +41,6 @@ class CreateBooksController {
       console.log("NO ENVIAMOS DATA");
     }
   };
-
-  async init() {  
-    const authorsData = await this.getAuthors();
-    const editorialsData = await this.getEditorials();
-    
-    this.renderEditorials(editorialsData);
-    this.renderAuthors(authorsData);
-  }
-
-  async getAuthors () {
-    const bookAuthors = await fetch("http://localhost:3000/api/author", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    const content = await bookAuthors.json();
-
-    return content;
-  }
-
-  async getEditorials () {
-    const bookEditorial = await fetch("http://localhost:3000/api/editorial", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    const content = await bookEditorial.json();
-
-    return content;
-  }
 
   sendData = async () => {
     console.log("enviamos la informacion");
@@ -95,6 +70,15 @@ class CreateBooksController {
     window.location.href = "/books";
   };
 
+  async init() {
+    
+    const editorialsData = await this.editorialsService.getEditorials();
+    const authorsData = await this.authorsService.getAuthors();
+
+    this.renderEditorials(editorialsData);
+    this.renderAuthors(authorsData);
+  }
+
   renderAuthors(authorsDataList) {
     const authorsSelect = document.getElementById("authors");
 
@@ -120,9 +104,7 @@ class CreateBooksController {
   renderEditorials(editorialDataList) {
     const editorialSelect = document.getElementById("editorial");
 
-    const editorialTemplate = document.getElementById(
-      "editorial-template"
-    );
+    const editorialTemplate = document.getElementById("editorial-template");
 
     for (let i = 0; i < editorialDataList.length; i++) {
       const copyEditorialTemplate = document.importNode(
@@ -140,5 +122,8 @@ class CreateBooksController {
   }
 }
 
-const createCtrl = new CreateBooksController();
+const createCtrl = new CreateBooksController(
+  new EditorialService(),
+  new AuthorsService()
+);
 createCtrl.init();

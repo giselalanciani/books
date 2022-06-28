@@ -1,3 +1,6 @@
+import { EditorialService } from "../../services/editorial-service";
+import { BookService } from "../../services/book-service";
+
 /**
  * Que debe hacer:
  *  1) Cuando la pagina inicia.
@@ -12,10 +15,17 @@
  *
  */
 class ListBooksController {
-  constructor() {
+  editorialService;
+  bookService;
+
+  constructor(editorialService, bookService) {
+    this.editorialService = editorialService;
+    this.bookService = bookService;
+
     const createButton = document.getElementById("create-button");
     createButton.addEventListener("click", this.onClickCreateButton);
   }
+
   onClickCreateButton = () => {
     window.location.href = "/books/create";
   };
@@ -69,7 +79,8 @@ class ListBooksController {
       elementNoBooksAvailableMessage.setAttribute("class", "");
     }
     this.removeWaitingMessageRow();
-    this.renderBooks(booksDataList);
+    const editorialsData = await this.editorialService.getEditorials();
+    this.renderBooks(booksDataList, editorialsData);
   }
 
   async getBooksData() {
@@ -85,7 +96,7 @@ class ListBooksController {
     waitingMessageRow.remove();
   }
 
-  renderBooks(booksData) {
+  renderBooks(booksData, editorialsData) {
     const bookTable = document.getElementById("books-table");
     const bookRowTemplate = document.getElementById("book-row-template");
 
@@ -96,21 +107,21 @@ class ListBooksController {
         bookRowTemplate.content,
         true
       );
-      copyRowTemplate.querySelectorAll(
-        "td"
-      )[0].textContent = `${booksData[i].name}`;
+      const nameInput = copyRowTemplate.querySelector("[name='name']");
+      nameInput.textContent = booksData[i].name;
 
-      copyRowTemplate.querySelectorAll(
-        "td"
-      )[1].textContent = `${booksData[i].year}`;
+      const yearInput = copyRowTemplate.querySelector("[name='year']");
+      yearInput.textContent = booksData[i].year;
 
-      copyRowTemplate.querySelectorAll(
-        "td"
-      )[2].textContent = `${booksData[i].author}`;
+      const authorInput = copyRowTemplate.querySelector("[name='author']");
+      authorInput.textContent = booksData[i].author;
 
-      copyRowTemplate.querySelectorAll(
-        "td"
-      )[3].textContent = `${booksData[i].editorial}`;
+      const editorialInput =
+        copyRowTemplate.querySelector("[name='editorial']");
+      editorialInput.textContent = booksData[i].editorial;
+
+      const actionInput = copyRowTemplate.querySelector("[name='actions']");
+      actionInput.textContent = booksData[i].action;
 
       const editBookButton = copyRowTemplate.querySelector(
         "[name='edit-book-button']"
@@ -129,5 +140,8 @@ class ListBooksController {
     }
   }
 }
-const booksCtrl = new ListBooksController();
+const booksCtrl = new ListBooksController(
+  new EditorialService(),
+  new BookService()
+);
 booksCtrl.init();
