@@ -1,13 +1,16 @@
 import { AuthorsService } from "../../services/authors-service";
+import { BookService } from "../../services/book-service";
 import { EditorialService } from "../../services/editorial-service";
 
 class EditBooksController {
   editorialService;
   authorsService;
+  bookService;
 
-  constructor(editorialService, authorsService) {
+  constructor(editorialService, authorsService, bookService) {
     this.editorialService = editorialService;
     this.authorsService = authorsService;
+    this.bookService = bookService;
 
     const saveButton = document.getElementById("save-book-button");
     saveButton.addEventListener("click", this.onClickSaveButton);
@@ -91,10 +94,13 @@ class EditBooksController {
   }
 
   async init() {
+
+    const params =  this.getQueryParams();
     
-    const bookData = await this.getBookData();    
+    const bookData = await this.bookService.getBook(params.id);    
     const authorsData = await this.authorsService.getAuthors();
-    const editoriasData = await this.editorialService.getEditorials();    
+    const editoriasData = await this.editorialService.getEditorials();   
+     
     
     this.renderAuthors(authorsData);
     this.renderEditorials(editoriasData);
@@ -113,16 +119,7 @@ class EditBooksController {
     editorialSelect.value = bookData.editorial;
   }
 
-  async getBookData () {
-    const response = await fetch(
-      `http://localhost:3000/api/book/${this.getQueryParams().id}`
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch the book.");
-    }
-    return  await response.json();
-  }
+ 
 
 
   removeActivityIndicationMessage() {
@@ -138,5 +135,5 @@ class EditBooksController {
 
 
 
-const editCtrl = new EditBooksController(new EditorialService(), new AuthorsService());
+const editCtrl = new EditBooksController(new EditorialService(), new AuthorsService(), new BookService());
 editCtrl.init();

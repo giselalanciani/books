@@ -1,4 +1,5 @@
 import { AuthorsService } from "../../services/authors-service";
+import { BookService } from "../../services/book-service";
 import { EditorialService } from "../../services/editorial-service";
 
 /**
@@ -25,10 +26,12 @@ import { EditorialService } from "../../services/editorial-service";
 class CreateBooksController {
   editorialsService;
   authorsService;
+  bookService;
 
-  constructor(editorialsService, authorsService) {
+  constructor(editorialsService, authorsService, bookService) {
     this.editorialsService = editorialsService;
     this.authorsService = authorsService;
+    this.bookService = bookService;
 
     const createBookButton = document.getElementById("create-book-button");
     createBookButton.addEventListener("click", this.onClickCreateBookButton);
@@ -45,33 +48,29 @@ class CreateBooksController {
   sendData = async () => {
     console.log("enviamos la informacion");
 
-    const bookName = document.querySelector("[name='bookname']");
-    const bookYear = document.querySelector("[name='year']");
-    const authorsSelector = document.querySelector("[name='authors']");
+    const bookNameInput = document.querySelector("[name='bookname']");
+    const bookYearInput = document.querySelector("[name='year']");
+    const authorSelector = document.querySelector("[name='authors']");
     const editorialSelector = document.querySelector("[name='editorial']");
 
-    const rawResponse = await fetch("http://localhost:3000/api/book", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: bookName.value,
-        year: bookYear.value,
-        author: authorsSelector.value,
-        editorial: editorialSelector.value,
-      }),
-    });
-    const content = await rawResponse.json();
+    const book = {
+      name: bookNameInput.value,
+      year: bookYearInput.value,
+      author: authorSelector.value,
+      editorial: editorialSelector.value,
+    };
 
-    console.log(content);
-    alert("Libro creado");
-    window.location.href = "/books";
+    const createResponse = await this.bookService.createBook(book);
+
+    if (!createResponse.ok) {
+      throw new Error("No se pudo craer su libro");
+    } else {
+      alert("Libro creado");
+      window.location.href = "/books";
+    }
   };
 
   async init() {
-    
     const editorialsData = await this.editorialsService.getEditorials();
     const authorsData = await this.authorsService.getAuthors();
 
@@ -124,6 +123,7 @@ class CreateBooksController {
 
 const createCtrl = new CreateBooksController(
   new EditorialService(),
-  new AuthorsService()
+  new AuthorsService(),
+  new BookService()
 );
 createCtrl.init();

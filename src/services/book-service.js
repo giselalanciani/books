@@ -18,9 +18,31 @@ class BookService {
     return response;
   }
 
-  async getBook(id) {}
+  async getBook(id) {
+    const response = await fetch(`http://localhost:3000/api/book/${id}`);
 
-  async createBook(book) {}
+    if (!response.ok) {
+      throw new Error("Failed to fetch the book.");
+    }
+    return await response.json();
+  }
+
+  async createBook(book) {
+    const response = await fetch("http://localhost:3000/api/book", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: book.name,
+        year: book.year,
+        author: book.author,
+        editorial: book.editorial,
+      }),
+    });
+    return response;
+  }
 
   async updateBook(book) {}
 }
