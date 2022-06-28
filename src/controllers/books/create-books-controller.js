@@ -51,6 +51,7 @@ class CreateBooksController {
 
     const bookName = document.querySelector("[name='bookname']");
     const bookYear = document.querySelector("[name='year']");
+    const authorsSelector = document.querySelector("[name='authors']");
 
     const rawResponse = await fetch("http://localhost:3000/api/book", {
       method: "POST",
@@ -58,7 +59,11 @@ class CreateBooksController {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: bookName.value, year: bookYear.value }),
+      body: JSON.stringify({
+        name: bookName.value,
+        year: bookYear.value,
+        author: authorsSelector.value,
+      }),
     });
     const content = await rawResponse.json();
 
@@ -83,7 +88,7 @@ class CreateBooksController {
       const newAuthorOption = copyAuthorOptionTemplate.querySelector("option");
 
       newAuthorOption.textContent = `${authorsDataList[i].name}`;
-      newAuthorOption.setAttribute("value", `${authorsDataList[i].id}`);
+      newAuthorOption.setAttribute("value", `${authorsDataList[i].name}`);
 
       authorsSelect.append(newAuthorOption);
     }
