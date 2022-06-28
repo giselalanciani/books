@@ -71,7 +71,7 @@ class ListBooksController {
   };
 
   async init() {
-    const booksDataList = await this.getBooksData();
+    const booksDataList = await this.bookService.getBooks();
     if (booksDataList.length === 0) {
       const elementNoBooksAvailableMessage = document.querySelector(
         "#no-books-available"
@@ -81,14 +81,6 @@ class ListBooksController {
     this.removeWaitingMessageRow();
     const editorialsData = await this.editorialService.getEditorials();
     this.renderBooks(booksDataList, editorialsData);
-  }
-
-  async getBooksData() {
-    const response = await fetch(`http://localhost:3000/api/book`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch from book API.");
-    }
-    return await response.json();
   }
 
   removeWaitingMessageRow() {
