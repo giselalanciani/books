@@ -36,18 +36,10 @@ class ListBooksController {
         `Quiere eliminar su libro: ${event.target.getAttribute("data-name")} ?`
       ) == true
     ) {
-      const deleteResponse = await fetch(
-        `http://localhost:3000/api/book/${event.target.getAttribute(
-          "data-id"
-        )}`,
-        {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const idToDelete = event.target.getAttribute("data-id");
+
+      const deleteResponse = await this.bookService.deleteBook(idToDelete);
+      
       if (!deleteResponse.ok) {
         throw new Error("No se pudo eliminar su libro");
       } else {
