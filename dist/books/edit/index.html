@@ -26,6 +26,11 @@
         <label for="year">Year</label>
         <input type="year" name="year" />
 
+        <label for="editorial">editorial</label>
+        <select name="editorial" id="editorial">
+          <option value="seleccione">seleccione..</option>
+        </select>
+
         <label for="authors">authors</label>
 
         <select name="authors" id="authors">
@@ -35,6 +40,10 @@
         <button id="save-book-button" type="button">Save</button>
       </form>
     </main>
+
+    <template id="editorial-template">
+      <option value="seleccione">seleccione..</option>
+    </template>
 
     <template id="author-option-template">
       <option value="seleccione">seleccione..</option>

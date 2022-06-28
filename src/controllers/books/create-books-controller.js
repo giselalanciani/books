@@ -34,8 +34,11 @@ class CreateBooksController {
   };
 
   async init() {  
-    const content = await this.getAuthors();
-    this.renderAuthors(content);
+    const authorsData = await this.getAuthors();
+    const editorialsData = await this.getEditorials();
+    
+    this.renderEditorials(editorialsData);
+    this.renderAuthors(authorsData);
   }
 
   async getAuthors () {
@@ -51,12 +54,26 @@ class CreateBooksController {
     return content;
   }
 
+  async getEditorials () {
+    const bookEditorial = await fetch("http://localhost:3000/api/editorial", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const content = await bookEditorial.json();
+
+    return content;
+  }
+
   sendData = async () => {
     console.log("enviamos la informacion");
 
     const bookName = document.querySelector("[name='bookname']");
     const bookYear = document.querySelector("[name='year']");
     const authorsSelector = document.querySelector("[name='authors']");
+    const editorialSelector = document.querySelector("[name='editorial']");
 
     const rawResponse = await fetch("http://localhost:3000/api/book", {
       method: "POST",
@@ -68,6 +85,7 @@ class CreateBooksController {
         name: bookName.value,
         year: bookYear.value,
         author: authorsSelector.value,
+        editorial: editorialSelector.value,
       }),
     });
     const content = await rawResponse.json();
@@ -96,6 +114,28 @@ class CreateBooksController {
       newAuthorOption.setAttribute("value", `${authorsDataList[i].name}`);
 
       authorsSelect.append(newAuthorOption);
+    }
+  }
+
+  renderEditorials(editorialDataList) {
+    const editorialSelect = document.getElementById("editorial");
+
+    const editorialTemplate = document.getElementById(
+      "editorial-template"
+    );
+
+    for (let i = 0; i < editorialDataList.length; i++) {
+      const copyEditorialTemplate = document.importNode(
+        editorialTemplate.content,
+        true
+      );
+
+      const newEditorialOption = copyEditorialTemplate.querySelector("option");
+
+      newEditorialOption.textContent = `${editorialDataList[i].name}`;
+      newEditorialOption.setAttribute("value", `${editorialDataList[i].id}`);
+
+      editorialSelect.append(newEditorialOption);
     }
   }
 }

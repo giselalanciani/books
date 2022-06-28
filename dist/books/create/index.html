@@ -17,6 +17,11 @@
         <input type="text" name="bookname" />
         <label for="year">Year</label>
         <input type="year" name="year" />
+        <label for="editorial">editorial</label>
+
+        <select name="editorial" id="editorial">
+          <option value="seleccione">seleccione..</option>
+        </select>
 
         <label for="authors">authors</label>
 
@@ -24,10 +29,15 @@
           <option value="seleccione">seleccione..</option>
         </select>
 
+
         <button id="create-book-button" type="button">Create</button>
       </form>
     </main>
     <script src="/assets/scripts/createBundle.js"></script>
+
+    <template id="editorial-template">
+      <option value="seleccione">seleccione..</option>
+    </template>
 
     <template id="author-option-template">
       <option value="seleccione">seleccione..</option>

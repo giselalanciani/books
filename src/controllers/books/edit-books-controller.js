@@ -14,6 +14,7 @@ class EditBooksController {
     const bookNameInput = document.querySelector("[name='bookname']");
     const bookYearInput = document.querySelector("[name='year']");
     const authorsSelectorInput = document.querySelector("[name='authors']");
+    const editorialSelectorInput = document.querySelector("[name='editorial']");
 
     const saveButton = await fetch(
       `http://localhost:3000/api/book/${this.getQueryParams().id}`,
@@ -26,7 +27,8 @@ class EditBooksController {
         body: JSON.stringify({
           name: bookNameInput.value,
           year: bookYearInput.value,
-          author: authorsSelectorInput.value
+          author: authorsSelectorInput.value,
+          editorial: editorialSelectorInput.value
         }),
       }
     );
@@ -56,8 +58,54 @@ class EditBooksController {
     }
   }
 
+  renderEditorials(editorialDataList) {
+    console.log(editorialDataList);
+    const editorialSelect = document.getElementById("editorial");
+
+    const editorialTemplate = document.getElementById(
+      "editorial-template"
+    );
+
+    for (let i = 0; i < editorialDataList.length; i++) {
+      const copyEditorialTemplate = document.importNode(
+        editorialTemplate.content,
+        true
+      );
+
+      const newEditorialOption = copyEditorialTemplate.querySelector("option");
+
+      newEditorialOption.textContent = `${editorialDataList[i].name}`;
+      newEditorialOption.setAttribute("value", `${editorialDataList[i].id}`);
+
+      editorialSelect.append(newEditorialOption);
+    }
+  }
+
   async init() {
     
+    const bookData = await this.getBookData();    
+    const authorsData = await this.getAuthors();
+    const editoriasData = await this.getEditorials();
+    
+    
+    this.renderAuthors(authorsData);
+    this.renderEditorials(editoriasData);
+
+    this.removeActivityIndicationMessage();  
+
+
+    console.log("bookData", bookData);
+    const bookInput = document.querySelector("[name='bookname']");
+    bookInput.value = bookData.name;
+    const yearInput = document.querySelector("[name='year']");
+    yearInput.value = bookData.year;
+    const authorsSelect = document.querySelector("[name='authors']");
+    authorsSelect.value = bookData.author;
+    const editorialSelect = document.querySelector("[name='editorial']");
+    editorialSelect.value = bookData.editorial;
+  }
+
+  async getBookData () {
     const response = await fetch(
       `http://localhost:3000/api/book/${this.getQueryParams().id}`
     );
@@ -65,21 +113,7 @@ class EditBooksController {
     if (!response.ok) {
       throw new Error("Failed to fetch the book.");
     }
-    const data = await response.json();
-    this.removeActivityIndicationMessage();
-
-    console.log("data", data);
-
-    const content = await this.getAuthors();
-    this.renderAuthors(content);
-
-
-    const bookInput = document.querySelector("[name='bookname']");
-    bookInput.value = data.name;
-    const yearInput = document.querySelector("[name='year']");
-    yearInput.value = data.year;
-    const authorsSelect = document.querySelector("[name='authors']");
-    authorsSelect.value = data.author;
+    return  await response.json();
   }
 
   async getAuthors () {
@@ -91,6 +125,19 @@ class EditBooksController {
       },
     });
     const content = await bookAuthors.json();
+
+    return content;
+  }
+
+  async getEditorials () {
+    const bookEditorial = await fetch("http://localhost:3000/api/editorial", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const content = await bookEditorial.json();
 
     return content;
   }
