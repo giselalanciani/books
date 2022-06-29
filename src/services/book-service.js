@@ -44,6 +44,22 @@ class BookService {
     return response;
   }
 
-  async updateBook(book) {}
+  async updateBook(id, book) {
+
+    const response = await fetch(`http://localhost:3000/api/book/${id}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: book.name,
+        year: book.year,
+        author: book.author,
+        editorial: book.editorial,
+      }),
+    });
+    return response;
+  }
 }
 export { BookService };

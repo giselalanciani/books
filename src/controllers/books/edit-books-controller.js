@@ -28,24 +28,22 @@ class EditBooksController {
     const authorsSelectorInput = document.querySelector("[name='authors']");
     const editorialSelectorInput = document.querySelector("[name='editorial']");
 
-    const saveButton = await fetch(
-      `http://localhost:3000/api/book/${this.getQueryParams().id}`,
-      {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: bookNameInput.value,
-          year: bookYearInput.value,
-          author: authorsSelectorInput.value,
-          editorial: editorialSelectorInput.value
-        }),
-      }
-    );
-    alert("Su libro fue guardado correctamente");
-    window.location.href = "/books";
+    const book = {
+      name: bookNameInput.value,
+      year: bookYearInput.value,
+      author: authorsSelectorInput.value,
+      editorial: editorialSelectorInput.value,
+    };
+    const id = this.getQueryParams().id;
+
+    const udateBookResponse = await this.bookService.updateBook(id, book);
+
+    if (!udateBookResponse.ok) {
+      throw new Error("No se pudo guardar su libro");
+    } else {
+      alert("Su libro fue guardado correctamente");
+      window.location.href = "/books";
+    }
   };
 
   renderAuthors(authorsDataList) {
@@ -74,9 +72,7 @@ class EditBooksController {
     console.log(editorialDataList);
     const editorialSelect = document.getElementById("editorial");
 
-    const editorialTemplate = document.getElementById(
-      "editorial-template"
-    );
+    const editorialTemplate = document.getElementById("editorial-template");
 
     for (let i = 0; i < editorialDataList.length; i++) {
       const copyEditorialTemplate = document.importNode(
@@ -94,19 +90,16 @@ class EditBooksController {
   }
 
   async init() {
+    const params = this.getQueryParams();
 
-    const params =  this.getQueryParams();
-    
-    const bookData = await this.bookService.getBook(params.id);    
+    const bookData = await this.bookService.getBook(params.id);
     const authorsData = await this.authorsService.getAuthors();
-    const editoriasData = await this.editorialService.getEditorials();   
-     
-    
+    const editoriasData = await this.editorialService.getEditorials();
+
     this.renderAuthors(authorsData);
     this.renderEditorials(editoriasData);
 
-    this.removeActivityIndicationMessage();  
-
+    this.removeActivityIndicationMessage();
 
     console.log("bookData", bookData);
     const bookInput = document.querySelector("[name='bookname']");
@@ -119,9 +112,6 @@ class EditBooksController {
     editorialSelect.value = bookData.editorial;
   }
 
- 
-
-
   removeActivityIndicationMessage() {
     const waitingIndicationMessage = document.getElementById(
       "Activity-indication-message"
@@ -133,7 +123,9 @@ class EditBooksController {
   }
 }
 
-
-
-const editCtrl = new EditBooksController(new EditorialService(), new AuthorsService(), new BookService());
+const editCtrl = new EditBooksController(
+  new EditorialService(),
+  new AuthorsService(),
+  new BookService()
+);
 editCtrl.init();
