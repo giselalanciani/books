@@ -102,10 +102,7 @@ class ListBooksController {
 
       const editorialInput =
         copyRowTemplate.querySelector("[name='editorial']");
-      editorialInput.textContent = booksData[i].editorial;
-
-      const actionInput = copyRowTemplate.querySelector("[name='actions']");
-      actionInput.textContent = booksData[i].action;
+      editorialInput.textContent = booksData[i].editorial;      
 
       const editBookButton = copyRowTemplate.querySelector(
         "[name='edit-book-button']"

@@ -9,6 +9,9 @@ module.exports = {
     editBundle: "./src/controllers/books/edit-books-controller.js",
     createBundle: "./src/controllers/books/create-books-controller.js",
     editorialsBundle: "./src/controllers/editorials/list-editorial-controller.js",
+    createEditorialsBundle: "./src/controllers/editorials/create-editorial-controller.js",
+    editEditorialsBundle: "./src/controllers/editorials/edit-editorial-controller.js",
+   
   },
   output: {
     filename: "[name].js",
