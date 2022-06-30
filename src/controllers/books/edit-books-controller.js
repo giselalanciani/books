@@ -36,9 +36,9 @@ class EditBooksController {
     };
     const id = this.getQueryParams().id;
 
-    const udateBookResponse = await this.bookService.updateBook(id, book);
+    const updateBookResponse = await this.bookService.updateBook(id, book);
 
-    if (!udateBookResponse.ok) {
+    if (!updateBookResponse.ok) {
       throw new Error("No se pudo guardar su libro");
     } else {
       alert("Su libro fue guardado correctamente");

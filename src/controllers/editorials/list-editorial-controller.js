@@ -1,9 +1,13 @@
+import { BookService } from "../../services/book-service";
 import { EditorialService } from "../../services/editorial-service";
 
 class ListEditorialController {
   editorialService;
-  constructor(editorialService) {
+  bookService;
+  constructor(editorialService, bookService) {
     this.editorialService = editorialService;
+    this.bookService = bookService;
+
     const createButton = document.getElementById("create-button");
     createButton.addEventListener("click", this.onClickCreateButton);
   }
@@ -15,7 +19,9 @@ class ListEditorialController {
 
   renderEditorials(editorialsList) {
     const editorialTable = document.getElementById("editorial-table");
-    const editorialRowTemplate = document.getElementById("editorial-row-template");
+    const editorialRowTemplate = document.getElementById(
+      "editorial-row-template"
+    );
 
     console.log("editorialList", editorialsList);
 
@@ -28,6 +34,12 @@ class ListEditorialController {
       const nameInput = copyRowTemplate.querySelector("[name='name']");
       nameInput.textContent = editorialsList[i].name;
 
+      const editEditorialButton = copyRowTemplate.querySelector(
+        "[name='edit-editorial-button']"
+      );
+      editEditorialButton.setAttribute("data-id", editorialsList[i].id);
+      editEditorialButton.addEventListener("click", this.onClickEditButton);
+
       const deleteEditorialButton = copyRowTemplate.querySelector(
         "[name='delete-editorial-button']"
       );
@@ -37,16 +49,28 @@ class ListEditorialController {
 
       editorialTable.append(copyRowTemplate);
     }
-
   }
 
   onClickCreateButton() {
     console.log("hizo click");
   }
 
-  onClickDeleteButton() {
-  }
+  onClickEditButton = (event) => {
+    console.log(
+      "La editorial es: ",
+      event.target.getAttribute("data-id"),
+      event.type
+    );
+    window.location.href = `http://localhost:8080/editorials/edit/?id=${event.target.getAttribute(
+      "data-id"
+    )}`;
+  };
+
+  onClickDeleteButton() {}
 }
 
-const listEditorialCtrl = new ListEditorialController(new EditorialService());
+const listEditorialCtrl = new ListEditorialController(
+  new EditorialService(),
+  new BookService()
+);
 listEditorialCtrl.init();
