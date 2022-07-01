@@ -13,13 +13,15 @@
     </header>
 
     <main>
-      <form name="create-country-form">
+      <form autocomplete="off" name="create-country-form">
         <label for="countryname">Country name</label>
         <input type="text" name="countryname" />
 
         <button id="create-country-button" type="button">Create</button>
       </form>
     </main>
+
+    <template id="country-create-template"></template>
     <script src="/assets/scripts/createCountryBundle.js"></script>
   </body>
 </html>
