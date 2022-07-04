@@ -1,11 +1,39 @@
+import { CountryServices } from "../../services/country-service";
+import { errorHandler } from "../../utils/error-handler";
+
 class CreateCountryController {
-  constructor() {
-    const createCountryButton = document.getElementById("create-country-button");
-    createCountryButton.addEventListener("click", this.onClickCreateCountryButton);
+  countryServices;
+  constructor(countryServices) {
+    this.countryServices = countryServices;
+    const createCountryButton = document.getElementById(
+      "create-country-button"
+    );
+    createCountryButton.addEventListener(
+      "click",
+      this.onClickCreateCountryButton
+    );
   }
 
-  onClickCreateBookButton = () => {
-    console.log("hizo click");
+  onClickCreateCountryButton = () => {
+    this.sendCountryData();
+  };
+
+  sendCountryData = async () => {
+    const countryNameInput = document.querySelector("[name='countryname']");
+    const country = {
+      name: countryNameInput.value,
+    };
+
+    try {
+      await this.countryServices.createCountry(country);
+      alert("Country created");
+      window.location.href = "/countries";
+    } catch (error) {
+      errorHandler(
+        "Your country couldn't be created, please try later.",
+        error
+      );
+    }
   };
 }
-const createCountryCtrl = new CreateCountryController();
+const createCountryCtrl = new CreateCountryController(new CountryServices());
