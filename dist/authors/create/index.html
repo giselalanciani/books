@@ -10,29 +10,38 @@
     <header>
       <a href="/">Home</a> > <a href="/authors">Authors</a> > Create author
       <h1>Create author</h1>
+      <link rel="stylesheet" href="/main.css" />
     </header>
 
     <main>
       <form name="create-author-form">
-        <label for="authorname">Author name</label>
-        <input type="text" name="authorname" />
+        <div class="field-container">
+          <label for="authorname">Author name</label>
+          <input type="text" name="authorname" />
+        </div>
 
-        <label for="Year">Year</label>
-        <select name="year" id="year">
-          <option value="">seleccione..</option>
-        </select>
+        <div class="field-container">
+          <label for="Year">Year</label>
+          <select name="year" id="year">
+            <option value="">seleccione..</option>
+          </select>
+        </div>
 
-        <label for="Month">Month</label>
+        <div class="field-container">
+          <label for="Month">Month</label>
 
-        <select name="month" id="month">
-          <option value="">seleccione..</option>
-        </select>
+          <select name="month" id="month">
+            <option value="">seleccione..</option>
+          </select>
+        </div>
 
-        <label for="Day">Day</label>
+        <div class="field-container">
+          <label for="Day">Day</label>
 
-        <select name="day" id="day">
-          <option value="">seleccione..</option>
-        </select>
+          <select name="day" id="day">
+            <option value="">seleccione..</option>
+          </select>
+        </div>
 
         <button id="create-author-button" type="button">Create</button>
       </form>
