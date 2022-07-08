@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit author</title>
+    <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
     <header>
@@ -13,23 +14,31 @@
     </header>
 
     <form name="edit-author-form">
-      <label for="authorname">Author name</label>
-      <input type="text" name="authorname" />
+      <div class="field-container">
+        <label for="authorname">Author name</label>
+        <input type="text" name="authorname" />
+      </div>
 
-      <label for="year">Year</label>
-      <select name="year" id="year">
-        <option value="">seleccione..</option>
-      </select>
+      <div class="field-container">
+        <label for="year">Year</label>
+        <select name="year" id="year">
+          <option value="">seleccione..</option>
+        </select>
+      </div>
 
-      <label for="month">Month</label>
-      <select name="month" id="month">
-        <option value="">seleccione..</option>
-      </select>
+      <div class="field-container">
+        <label for="month">Month</label>
+        <select name="month" id="month">
+          <option value="">seleccione..</option>
+        </select>
+      </div>
 
-      <label for="day">Day</label>
-      <select name="day" id="day">
-        <option value="">seleccione..</option>
-      </select>
+      <div class="field-container">
+        <label for="day">Day</label>
+        <select name="day" id="day">
+          <option value="">seleccione..</option>
+        </select>
+      </div>
 
       <button id="save-author-button" type="button">Save</button>
     </form>
