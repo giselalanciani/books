@@ -11,6 +11,7 @@ module.exports = {
     editorialsBundle: "./src/controllers/editorials/list-editorial-controller.js",
     createEditorialsBundle: "./src/controllers/editorials/create-editorial-controller.js",
     editEditorialsBundle: "./src/controllers/editorials/edit-editorial-controller.js",
+    authorsBundle: "./src/controllers/authors/authors-controller.js",
    
   },
   output: {
