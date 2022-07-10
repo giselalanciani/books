@@ -11,7 +11,16 @@ import { BookService } from "../../services/book-service";
  *              - hacer los reemplazos de los datos en cada columna de ese tr
  *              - hacer un append, dentro de la tabla
  *
- *
+ *  2) cuando apreta el boton de crear:
+ *    2.a) redirecciona a la pagina de crear Libro
+ * 
+ *  3) Cunado apreta el botn de editar:
+ *    3.a ) redirecciona a la pantalla de editar libro
+ * 
+ *  4) Cuando apreta en boton eliminar
+ *    4.a) Pregunta al usuario confirmacion
+ *    4.b ) Si elije OK -> eleminia el Book 
+ *      4.b.1) luego refresca la pantalla para mostrar los datos actualizado  
  *
  */
 class ListBooksController {

@@ -1,5 +1,6 @@
 import { BookService } from "../../services/book-service";
 import { EditorialService } from "../../services/editorial-service";
+import { errorHandler } from "../../utils/error-handler";
 
 class ListEditorialController {
   editorialService;
@@ -44,7 +45,7 @@ class ListEditorialController {
         "[name='delete-editorial-button']"
       );
 
-      deleteEditorialButton.setAttribute("data-name", editorialsList[i].name);
+      deleteEditorialButton.setAttribute("data-id", editorialsList[i].id);
       deleteEditorialButton.addEventListener("click", this.onClickDeleteButton);
 
       editorialTable.append(copyRowTemplate);
@@ -52,7 +53,7 @@ class ListEditorialController {
   }
 
   onClickCreateButton() {
-    console.log("hizo click");
+    window.location.href = "/editorials/create";
   }
 
   onClickEditButton = (event) => {
@@ -66,7 +67,20 @@ class ListEditorialController {
     )}`;
   };
 
-  onClickDeleteButton() {}
+  onClickDeleteButton = async (event) => {
+    const id = event.target.getAttribute("data-id");
+    
+    try {
+      await this.editorialService.deleteEditorial(id);
+      alert("Editorial eliminada");
+      window.location.href = "/editorials";
+    } catch (error) {
+      errorHandler(
+        "No se pudo eliminar su editorial, intente mas tarde.",
+        error
+      );
+    }
+  };
 }
 
 const listEditorialCtrl = new ListEditorialController(

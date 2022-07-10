@@ -1,4 +1,5 @@
 import { EditorialService } from "../../services/editorial-service";
+import { errorHandler } from "../../utils/error-handler";
 
 class CreateEditorialController {
   editorialService;
@@ -28,21 +29,35 @@ class CreateEditorialController {
       name: editorialNameInput.value,
     };
 
-    const editorialResponse = await this.editorialService.createEditorial(
-      editorial
-    );
-
-    if (!editorialResponse.ok) {
-
-      console.log("editorialResponse", editorialResponse);
-
-      throw new Error("No se pudo crear su editorial");
-    } else {
+    try {
+      await this.editorialService.createEditorial(editorial);
       alert("Editorial creada");
       window.location.href = "/editorials";
+    } catch (error) {
+      errorHandler("No se pudo crear su editorial, intente mas tarde.", error);
     }
   };
+
+  
+
+  renderCreateEditorial(editorialDataList) {
+    const editorialCreateSelect = document.getElementById("editorialname");
+
+    const editorialCreateTemplate = document.getElementById(
+      "editorial-create-template"
+    );
+
+    for (let i = 0; i < editorialDataList.length; i++) {
+      const copyEditorialCreateTemplate = document.importNode(
+        editorialCreateTemplate.content,
+        true
+      );
+    }
+  }
 }
+
 const createEditorialCtrl = new CreateEditorialController(
   new EditorialService()
 );
+
+

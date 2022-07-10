@@ -1,13 +1,16 @@
 class EditorialService {
   async getEditorials() {
-    const bookEditorial = await fetch("http://localhost:3000/api/editorial", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    const responseData = await bookEditorial.json();
+    const editorialsListResponse = await fetch(
+      "http://localhost:3000/api/editorial",
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const responseData = await editorialsListResponse.json();
 
     return responseData;
   }
@@ -29,19 +32,48 @@ class EditorialService {
   }
 
   async createEditorial(editorial) {
+    const bookEditorialResponse = await fetch(
+      `http://localhost:3000/api/editorial`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: editorial.name,
+        }),
+      }
+    );
 
-    const bookEditorialResponse = await fetch(`http://localhost:3000/api/editorial`, {
-      method: "POST",
+    return await bookEditorialResponse.json();
+  }
+
+  async updateEditorial(id, editorial) {
+    const response = await fetch(`http://localhost:3000/api/editorial/${id}`, {
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name: editorial.name,
-      }),
+      body: JSON.stringify(editorial),
     });
 
-    return bookEditorialResponse;
+    const responseData = await response.json();
+
+    return responseData;
+  }
+
+  async deleteEditorial(id) {
+    const response = await fetch(`http://localhost:3000/api/editorial/${id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await response.json();
   }
 }
 

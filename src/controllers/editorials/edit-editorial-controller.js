@@ -1,8 +1,8 @@
-import { BookService } from "../../services/book-service";
+import { EditorialService } from "../../services/editorial-service";
 
 class EditEditorialController {
-  constructor(bookService) {
-    this.bookService = bookService;
+  constructor(editorialService) {
+    this.editorialService = editorialService;
 
     console.log("edit editorial controller");
 
@@ -16,20 +16,52 @@ class EditEditorialController {
     return params;
   }
 
-  onClickSaveButton = async (event) =>{
-    const editorialNameInput = document.querySelector("[name='editorialname']");
+  onClickSaveButton = async (event) => {
+    const editorialInput = document.querySelector("[name='editorialname']");
 
-    console.log("editorial guardada");
+    const editorial = {
+      name: editorialInput.value,
+    };
+
+    const id = this.getQueryParams().id;
+
+    try {
+      const updateEditorialResponseData = await this.editorialService.updateEditorial(
+        id,
+        editorial
+      );
+      alert("Su libro fue guardado correctamente");
+      window.location.href = "/editorials";
+    } catch (error) {
+      throw new Error("No se pudo guardar su libro");
+    }
+
+  };
+
+  renderEditorial(editorialDataList) {
+    const editorialSelect = document.getElementById("editorialname");
+
+    const editorialTemplate = document.getElementById("editorial-template");
+
+    for (let i = 0; i < editorialDataList.length; i++) {
+      const copyEditorialTemplate = document.importNode(
+        editorialTemplate.content,
+        true
+      );
+    }
   }
 
-renderEditorial () {
-    const editorialSelect = document.getElementById("editorialname");
+  async init() {
+    const params = this.getQueryParams();
+
+    const editorialData = await this.editorialService.getEditorial(params.id);
+    console.log("editorial data");
+
+    this.renderEditorial(editorialData);
+
+    const editorialInput = document.querySelector("[name='editorialname']");
+    editorialInput.value = editorialData.name;
+  }
 }
-
-init(){
-
-};
-
-}
-const editEditorialCtrl = new EditEditorialController(new BookService());
+const editEditorialCtrl = new EditEditorialController(new EditorialService());
 editEditorialCtrl.init();
