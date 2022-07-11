@@ -1,4 +1,5 @@
 import { EditorialService } from "../../services/editorial-service";
+import { errorHandler } from "../../utils/error-handler";
 
 class EditEditorialController {
   constructor(editorialService) {
@@ -26,16 +27,13 @@ class EditEditorialController {
     const id = this.getQueryParams().id;
 
     try {
-      const updateEditorialResponseData = await this.editorialService.updateEditorial(
-        id,
-        editorial
-      );
+      const updateEditorialResponseData =
+        await this.editorialService.updateEditorial(id, editorial);
       alert("Su libro fue guardado correctamente");
       window.location.href = "/editorials";
     } catch (error) {
-      throw new Error("No se pudo guardar su libro");
+      errorHandler("No se pudo guardar su libro", error);
     }
-
   };
 
   renderEditorial(editorialDataList) {
@@ -53,14 +51,15 @@ class EditEditorialController {
 
   async init() {
     const params = this.getQueryParams();
+    try {
+      const editorialData = await this.editorialService.getEditorial(params.id);
+      this.renderEditorial(editorialData);
 
-    const editorialData = await this.editorialService.getEditorial(params.id);
-    console.log("editorial data");
-
-    this.renderEditorial(editorialData);
-
-    const editorialInput = document.querySelector("[name='editorialname']");
-    editorialInput.value = editorialData.name;
+      const editorialInput = document.querySelector("[name='editorialname']");
+      editorialInput.value = editorialData.name;
+    } catch (error) {
+      errorHandler("Error en la busqueda,vualva a intentarlo luego", error);
+    }
   }
 }
 const editEditorialCtrl = new EditEditorialController(new EditorialService());

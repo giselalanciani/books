@@ -13,9 +13,14 @@ class ListEditorialController {
     createButton.addEventListener("click", this.onClickCreateButton);
   }
   async init() {
-    const responseEditorialsData = await this.editorialService.getEditorials();
+    try {
+      const responseEditorialsData =
+        await this.editorialService.getEditorials();
 
-    this.renderEditorials(responseEditorialsData);
+      this.renderEditorials(responseEditorialsData);
+    } catch (error) {
+      errorHandler("No podemos encontrar los datos, intente nuevamente", error);
+    }
   }
 
   renderEditorials(editorialsList) {
@@ -69,7 +74,7 @@ class ListEditorialController {
 
   onClickDeleteButton = async (event) => {
     const id = event.target.getAttribute("data-id");
-    
+
     try {
       await this.editorialService.deleteEditorial(id);
       alert("Editorial eliminada");
