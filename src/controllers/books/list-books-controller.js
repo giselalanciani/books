@@ -1,5 +1,6 @@
 import { EditorialService } from "../../services/editorial-service";
 import { BookService } from "../../services/book-service";
+import { errorHandler } from "../../utils/error-handler";
 
 /**
  * Que debe hacer:
@@ -13,14 +14,14 @@ import { BookService } from "../../services/book-service";
  *
  *  2) cuando apreta el boton de crear:
  *    2.a) redirecciona a la pagina de crear Libro
- * 
+ *
  *  3) Cunado apreta el botn de editar:
  *    3.a ) redirecciona a la pantalla de editar libro
- * 
+ *
  *  4) Cuando apreta en boton eliminar
  *    4.a) Pregunta al usuario confirmacion
- *    4.b ) Si elije OK -> eleminia el Book 
- *      4.b.1) luego refresca la pantalla para mostrar los datos actualizado  
+ *    4.b ) Si elije OK -> eleminia el Book
+ *      4.b.1) luego refresca la pantalla para mostrar los datos actualizado
  *
  */
 class ListBooksController {
@@ -44,20 +45,14 @@ class ListBooksController {
       confirm(
         `Quiere eliminar su libro: ${event.target.getAttribute("data-name")} ?`
       ) == true
-    ) {
-      const idToDelete = event.target.getAttribute("data-id");
-
-      const deleteResponse = await this.bookService.deleteBook(idToDelete);
-      
-      if (!deleteResponse.ok) {
-        throw new Error("No se pudo eliminar su libro");
-      } else {
-        // alert("El libro fue eliminado exitosamente!");
+    )
+      try {
+        const idToDelete = event.target.getAttribute("data-id");
+        await this.bookService.deleteBook(idToDelete);
         window.location.href = "http://localhost:8080/books/";
+      } catch (error) {
+        errorHandler("No se pudo eliminar su libro", error);
       }
-    } else {
-      console.log("You canceled!");
-    }
   };
 
   onClickEditButton = async (event) => {
@@ -72,16 +67,21 @@ class ListBooksController {
   };
 
   async init() {
-    const booksDataList = await this.bookService.getBooks();
-    if (booksDataList.length === 0) {
-      const elementNoBooksAvailableMessage = document.querySelector(
-        "#no-books-available"
-      );
-      elementNoBooksAvailableMessage.setAttribute("class", "");
+    try {
+      const booksDataList = await this.bookService.getBooks();
+      if (booksDataList.length === 0) {
+        const elementNoBooksAvailableMessage = document.querySelector(
+          "#no-books-available"
+        );
+        elementNoBooksAvailableMessage.setAttribute("class", "");
+      }
+
+      const editorialsData = await this.editorialService.getEditorials();
+      this.renderBooks(booksDataList, editorialsData);
+      this.removeWaitingMessageRow();
+    } catch (error) {
+      errorHandler("no hay libros disponibles, intente luego", error);
     }
-    this.removeWaitingMessageRow();
-    const editorialsData = await this.editorialService.getEditorials();
-    this.renderBooks(booksDataList, editorialsData);
   }
 
   removeWaitingMessageRow() {
@@ -92,8 +92,6 @@ class ListBooksController {
   renderBooks(booksData, editorialsData) {
     const bookTable = document.getElementById("books-table");
     const bookRowTemplate = document.getElementById("book-row-template");
-
-    console.log("booksData", booksData);
 
     for (let i = 0; i < booksData.length; i++) {
       const copyRowTemplate = document.importNode(
@@ -111,7 +109,7 @@ class ListBooksController {
 
       const editorialInput =
         copyRowTemplate.querySelector("[name='editorial']");
-      editorialInput.textContent = booksData[i].editorial;      
+      editorialInput.textContent = booksData[i].editorial;
 
       const editBookButton = copyRowTemplate.querySelector(
         "[name='edit-book-button']"

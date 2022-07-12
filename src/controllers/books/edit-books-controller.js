@@ -1,6 +1,7 @@
 import { AuthorsService } from "../../services/authors-service";
 import { BookService } from "../../services/book-service";
 import { EditorialService } from "../../services/editorial-service";
+import { errorHandler } from "../../utils/error-handler";
 
 class EditBooksController {
   editorialService;
@@ -23,26 +24,30 @@ class EditBooksController {
   }
 
   onClickSaveButton = async (event) => {
-    const bookNameInput = document.querySelector("[name='bookname']");
-    const bookYearInput = document.querySelector("[name='year']");
-    const authorsSelectorInput = document.querySelector("[name='authors']");
-    const editorialSelectorInput = document.querySelector("[name='editorial']");
+    try {
+      const bookNameInput = document.querySelector("[name='bookname']");
+      const bookYearInput = document.querySelector("[name='year']");
+      const authorsSelectorInput = document.querySelector("[name='authors']");
+      const editorialSelectorInput =
+        document.querySelector("[name='editorial']");
 
-    const book = {
-      name: bookNameInput.value,
-      year: bookYearInput.value,
-      author: authorsSelectorInput.value,
-      editorial: editorialSelectorInput.value,
-    };
-    const id = this.getQueryParams().id;
+      const book = {
+        name: bookNameInput.value,
+        year: bookYearInput.value,
+        author: authorsSelectorInput.value,
+        editorial: editorialSelectorInput.value,
+      };
 
-    const updateBookResponse = await this.bookService.updateBook(id, book);
+      const id = this.getQueryParams().id;
 
-    if (!updateBookResponse.ok) {
-      throw new Error("No se pudo guardar su libro");
-    } else {
-      alert("Su libro fue guardado correctamente");
+      await this.bookService.updateBook(id, book);
+      alert('Los datos fueron guardados');
       window.location.href = "/books";
+    } catch (error) {
+      errorHandler(
+        "Su libro no pudo ser guardado correctamente, por favor intente nuevamente",
+        error
+      );
     }
   };
 
@@ -69,7 +74,6 @@ class EditBooksController {
   }
 
   renderEditorials(editorialDataList) {
-    console.log(editorialDataList);
     const editorialSelect = document.getElementById("editorial");
 
     const editorialTemplate = document.getElementById("editorial-template");
@@ -92,24 +96,28 @@ class EditBooksController {
   async init() {
     const params = this.getQueryParams();
 
-    const bookData = await this.bookService.getBook(params.id);
-    const authorsData = await this.authorsService.getAuthors();
-    const editoriasData = await this.editorialService.getEditorials();
+    try {
+      const bookData = await this.bookService.getBook(params.id);
+      const authorsData = await this.authorsService.getAuthors();
+      const editoriasData = await this.editorialService.getEditorials();
 
-    this.renderAuthors(authorsData);
-    this.renderEditorials(editoriasData);
+      this.renderAuthors(authorsData);
+      this.renderEditorials(editoriasData);
 
-    this.removeActivityIndicationMessage();
-
-    console.log("bookData", bookData);
-    const bookInput = document.querySelector("[name='bookname']");
-    bookInput.value = bookData.name;
-    const yearInput = document.querySelector("[name='year']");
-    yearInput.value = bookData.year;
-    const authorsSelect = document.querySelector("[name='authors']");
-    authorsSelect.value = bookData.author;
-    const editorialSelect = document.querySelector("[name='editorial']");
-    editorialSelect.value = bookData.editorial;
+      const bookInput = document.querySelector("[name='bookname']");
+      bookInput.value = bookData.name;
+      const yearInput = document.querySelector("[name='year']");
+      yearInput.value = bookData.year;
+      const authorsSelect = document.querySelector("[name='authors']");
+      authorsSelect.value = bookData.author;
+      const editorialSelect = document.querySelector("[name='editorial']");
+      editorialSelect.value = bookData.editorial;
+      
+    } catch (error) {
+      errorHandler("error al encontrar la data", error);
+    } finally {
+      this.removeActivityIndicationMessage();
+    }        
   }
 
   removeActivityIndicationMessage() {

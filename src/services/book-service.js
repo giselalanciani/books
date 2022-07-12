@@ -1,9 +1,7 @@
 class BookService {
   async getBooks() {
     const response = await fetch(`http://localhost:3000/api/book`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch from book API.");
-    }
+    
     return await response.json();
   }
 
@@ -15,15 +13,13 @@ class BookService {
         "Content-Type": "application/json",
       },
     });
-    return response;
+    return await response.json();
   }
 
   async getBook(id) {
     const response = await fetch(`http://localhost:3000/api/book/${id}`);
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch the book.");
-    }
+    
     return await response.json();
   }
 

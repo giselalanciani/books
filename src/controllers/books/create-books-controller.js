@@ -1,6 +1,7 @@
 import { AuthorsService } from "../../services/authors-service";
 import { BookService } from "../../services/book-service";
 import { EditorialService } from "../../services/editorial-service";
+import { errorHandler } from "../../utils/error-handler";
 
 /**
  * 1) El boton salvar
@@ -38,44 +39,40 @@ class CreateBooksController {
   }
 
   onClickCreateBookButton = () => {
-    console.log("hizo click");
-    if (this.sendData() === true) {
-    } else {
-      console.log("NO ENVIAMOS DATA");
-    }
+    this.sendData();
   };
 
   sendData = async () => {
-    console.log("enviamos la informacion");
+    try {
+      const bookNameInput = document.querySelector("[name='bookname']");
+      const bookYearInput = document.querySelector("[name='year']");
+      const authorSelector = document.querySelector("[name='authors']");
+      const editorialSelector = document.querySelector("[name='editorial']");
 
-    const bookNameInput = document.querySelector("[name='bookname']");
-    const bookYearInput = document.querySelector("[name='year']");
-    const authorSelector = document.querySelector("[name='authors']");
-    const editorialSelector = document.querySelector("[name='editorial']");
+      const book = {
+        name: bookNameInput.value,
+        year: bookYearInput.value,
+        author: authorSelector.value,
+        editorial: editorialSelector.value,
+      };
 
-    const book = {
-      name: bookNameInput.value,
-      year: bookYearInput.value,
-      author: authorSelector.value,
-      editorial: editorialSelector.value,
-    };
-
-    const createResponse = await this.bookService.createBook(book);
-
-    if (!createResponse.ok) {
-      throw new Error("No se pudo craer su libro");
-    } else {
-      alert("Libro creado");
+      await this.bookService.createBook(book);
+      alert("Los datos fueron guardados");
       window.location.href = "/books";
+    } catch (error) {
+      errorHandler("No se pudo craer su libro", error);
     }
   };
 
   async init() {
-    const editorialsData = await this.editorialsService.getEditorials();
-    const authorsData = await this.authorsService.getAuthors();
-
-    this.renderEditorials(editorialsData);
-    this.renderAuthors(authorsData);
+    try {
+      const editorialsData = await this.editorialsService.getEditorials();
+      const authorsData = await this.authorsService.getAuthors();
+      this.renderEditorials(editorialsData);
+      this.renderAuthors(authorsData);
+    } catch (error) {
+      errorHandler("error al sincronizar datos", error);
+    }
   }
 
   renderAuthors(authorsDataList) {
