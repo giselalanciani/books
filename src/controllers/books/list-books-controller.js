@@ -109,7 +109,12 @@ class ListBooksController {
 
       const editorialInput =
         copyRowTemplate.querySelector("[name='editorial']");
-      editorialInput.textContent = booksData[i].editorial;
+
+      const editorialName = this.findEditorialNameById(
+        booksData[i].editorial,
+        editorialsData
+      );
+      editorialInput.textContent = editorialName;
 
       const editBookButton = copyRowTemplate.querySelector(
         "[name='edit-book-button']"
@@ -126,6 +131,19 @@ class ListBooksController {
 
       bookTable.append(copyRowTemplate);
     }
+  }
+
+  findEditorialNameById(id, editorialsList) {
+    let editorialNameFound = "Editorial no encontrada";    
+
+    for (let i = 0; i < editorialsList.length; i++) {
+      if (id == editorialsList[i].id) {
+        editorialNameFound = editorialsList[i].name
+        break;
+      }
+    }
+
+    return editorialNameFound;
   }
 }
 const booksCtrl = new ListBooksController(
