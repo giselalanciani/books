@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create book</title>
+    <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
     <header>
@@ -12,23 +13,30 @@
       <h1>Create Book</h1>
     </header>
     <main>
-      <form name="create-user-form">
-        <label for="bookname">Book name</label>
-        <input type="text" name="bookname" />
-        <label for="year">Year</label>
-        <input type="year" name="year" />
-        <label for="editorial">editorial</label>
+      <form autocomplete="off" name="create-user-form">
+        <div class="field-container">
+          <label for="bookname">Book name</label>
+          <input type="text" name="bookname" />
+        </div>
 
-        <select name="editorial" id="editorial">
-          <option value="seleccione">seleccione..</option>
-        </select>
+        <div class="field-container">
+          <label for="year">Year</label>
+          <input type="year" name="year" />
+        </div>
 
-        <label for="authors">authors</label>
+        <div class="field-container">
+          <label for="editorial">Editorial</label>
+          <select name="editorial" id="editorial">
+            <option value="seleccione">seleccione..</option>
+          </select>
+        </div>
 
-        <select name="authors" id="authors">
-          <option value="seleccione">seleccione..</option>
-        </select>
-
+        <div class="field-container">
+          <label for="authors">Authors</label>
+          <select name="authors" id="authors">
+            <option value="seleccione">seleccione..</option>
+          </select>
+        </div>
 
         <button id="create-book-button" type="button">Create</button>
       </form>
