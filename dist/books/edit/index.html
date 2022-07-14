@@ -5,11 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit book</title>
-    <style>
-      .hidden {
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
     <header>
@@ -21,21 +17,27 @@
         Espere por favor, cargando datos...
       </p>
       <form class="hidden" name="edit-book-form">
-        <label for="bookname">Book name</label>
-        <input type="text" name="bookname" />
-        <label for="year">Year</label>
-        <input type="year" name="year" />
+        <div class="field-container">
+          <label for="bookname">Book name</label>
+          <input type="text" name="bookname" />
+          <label for="year">Year</label>
+          <input type="year" name="year" />
+        </div>
 
-        <label for="editorial">editorial</label>
-        <select name="editorial" id="editorial">
-          <option value="seleccione">seleccione..</option>
-        </select>
+        <div class="field-container">
+          <label for="editorial">editorial</label>
+          <select name="editorial" id="editorial">
+            <option value="seleccione">seleccione..</option>
+          </select>
+        </div>
 
-        <label for="authors">authors</label>
+        <div class="field-container">
+          <label for="authors">authors</label>
 
-        <select name="authors" id="authors">
-          <option value="seleccione">seleccione..</option>
-        </select>
+          <select name="authors" id="authors">
+            <option value="seleccione">seleccione..</option>
+          </select>
+        </div>
 
         <button id="save-book-button" type="button">Save</button>
       </form>
@@ -48,7 +50,7 @@
     <template id="author-option-template">
       <option value="seleccione">seleccione..</option>
     </template>
-    
+
     <script src="/assets/scripts/editBundle.js"></script>
   </body>
 </html>
