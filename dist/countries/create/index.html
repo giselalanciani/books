@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create country</title>
+    <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
     <header>
@@ -14,8 +15,10 @@
 
     <main>
       <form autocomplete="off" name="create-country-form">
-        <label for="countryname">Country name</label>
-        <input type="text" name="countryname" />
+        <div class="field-container">
+          <label for="countryname">Country name</label>
+          <input type="text" name="countryname" />
+        </div>
 
         <button id="create-country-button" type="button">Create</button>
       </form>
