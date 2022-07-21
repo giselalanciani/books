@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create editorial</title>
+    <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
     <header>
@@ -15,8 +16,10 @@
 
     <main>
       <form name="create-editorial-form">
-        <label for="editorialname">Editorial name</label>
-        <input type="text" name="editorialname" />
+        <div class="field-container">
+          <label for="editorialname">Editorial name</label>
+          <input type="text" name="editorialname" />
+        </div>
 
         <button id="create-editorial-button" type="button">Create</button>
       </form>
