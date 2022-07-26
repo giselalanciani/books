@@ -14,8 +14,19 @@ class CreateCountryController {
     );
   }
 
+  validateCreateForm() {
+    const countryNameInput = document.querySelector("[name='countryname']");
+    if (countryNameInput.value == "") {
+      alert("País es requerido");
+      return false;
+    }
+    return true;
+  }
+
   onClickCreateCountryButton = () => {
-    this.sendCountryData();
+    if (this.validateCreateForm() === true) {
+      this.sendCountryData();
+    }
   };
 
   sendCountryData = async () => {
