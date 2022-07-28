@@ -1,0 +1,20 @@
+.hidden {
+  display: none;
+}
+
+.field-container {
+  padding-bottom: 10px;
+}
+
+.field-container label {
+  display: inline-block;
+  min-width: 100px;
+}
+
+.field-container input {  
+  min-width: 150px;
+}
+
+.field-container select {
+  min-width: 158px;
+}
