@@ -43,9 +43,21 @@ class ListCountryController {
     }
   }
 
-  onClickEditButton() {
-    console.log("hizo click editar");
-  }
+  onClickEditButton= (event) => {
+    const id = event.target.getAttribute("data-id");
+    window.location.href = `http://localhost:8080/countries/edit/?id=${id}`;
+  };
+
+  onClickDeleteButton = async (event) => {
+    const id = event.target.getAttribute("data-id");
+    try {
+      await this.countryService.deleteCountry(id);
+      alert("Country deleted");
+      window.location.href = "/countries";
+    } catch (error) {
+      errorHandler("No se pudo eliminar el país, intente mas tarde.", error);
+    }
+  };
 
   async init() {
     try {
