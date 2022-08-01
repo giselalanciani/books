@@ -43,8 +43,8 @@ class ListCountryController {
     }
   }
 
-  onClickEditButton () {
-    console.log('hizo click editar')
+  onClickEditButton() {
+    console.log("hizo click editar");
   }
 
   async init() {
@@ -54,6 +54,13 @@ class ListCountryController {
     } catch (error) {
       errorHandler("No podemos encontrar los datos, intente nuevamente", error);
     }
+    this.removeActivityIndicationMessage();
+  }
+  removeActivityIndicationMessage() {
+    const waitingIndicationMessage = document.getElementById(
+      "Activity-indication-message"
+    );
+    waitingIndicationMessage.remove();
   }
 }
 

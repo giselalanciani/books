@@ -11,6 +11,11 @@
       <a href="/">Home</a> > Countries
       <h1>Countries</h1>
     </header>
+    <main>
+      <p id="Activity-indication-message">
+        Espere por favor, cargando datos...
+      </p>
+    </main>
     <button id="create-button" type="button">Create</button>
 
     <table id="country-table">
@@ -18,8 +23,12 @@
         <th>Name</th>
         <th>Actions</th>
       </tr>
+
+      <tr id="waiting-message-row">
+        <td colspan="3">Espere por favor, cargando datos...</td>
+      </tr>
     </table>
-    
+
     <template id="country-row-template">
       <tr>
         <td name="name"></td>
