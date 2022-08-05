@@ -13,15 +13,21 @@
       <h1>Edit country</h1>
     </header>
 
-    <form name="edit-country-form">
-      <div class="field-container">
-        <label for="countryname">Country name</label>
-        <input type="text" name="countryname" />
-      </div>
-      <template id="country-template"></template>
+    <main>
+      <p id="Activity-indication-message">
+        Espere por favor, cargando datos...
+      </p>
+      <form name="edit-country-form">
+        <div class="field-container">
+          <label for="countryname">Country name</label>
+          <input type="text" name="countryname" />
+          <div class="error hidden" name="countryname-required">* Campo requerido</div>
+        </div>
+        <template id="country-template"></template>
 
-      <button id="save-country-button" type="button">Save</button>
-    </form>
+        <button id="save-country-button" type="button">Save</button>
+      </form>
+    </main>
 
     <script src="/assets/scripts/editCountryBundle.js"></script>
   </body>
