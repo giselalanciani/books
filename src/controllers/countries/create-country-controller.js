@@ -16,10 +16,14 @@ class CreateCountryController {
 
   validateCreateForm() {
     const countryNameInput = document.querySelector("[name='countryname']");
-    if (countryNameInput.value == "") {
-      alert("País es requerido");
+    const nameRequiredError = document.querySelector(
+      "[name='countryname-required']"
+    );
+    if (countryNameInput.value == "") {      
+      nameRequiredError.classList.remove("hidden");
       return false;
     }
+    nameRequiredError.classList.add("hidden");
     return true;
   }
 
@@ -44,7 +48,17 @@ class CreateCountryController {
         "Your country couldn't be created, please try later.",
         error
       );
+    } finally {
+      this.removeActivityIndicationMessage();
     }
   };
+
+  removeActivityIndicationMessage() {
+    const waitingIndicationMessage = document.getElementById(
+      "Activity-indication-message"
+    );
+
+    waitingIndicationMessage.remove();
+  }
 }
 const createCountryCtrl = new CreateCountryController(new CountryServices());
