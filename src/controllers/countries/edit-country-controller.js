@@ -14,25 +14,40 @@ class EditCountryController {
     const params = Object.fromEntries(urlSearchParams.entries());
     return params;
   }
-
-  onClickSaveButton = async (event) => {
-    try {
-      const countryNameInput = document.querySelector("[name='countryname']");
-
-      const country = {
-        name: bookNameInput.value,
-      };
-
-      const id = this.getQueryParams().id;
-      await this.countryServices.updateCountry(country, id);
-      alert("Los datos fueron guardados");
-      window.location.href = "/countries";
-    } catch (error) {
-      errorHandler(
-        "El país no puede ser guardado en este momento, por favor intente nuevamente",
-        error
-      );
+  validateEditForm() {
+    const editNameInput = document.querySelector("[name='countryname']");
+    const nameRequiredError = document.querySelector(
+      "[name='countryname-required']"
+    );
+    if (editNameInput.value == "") {
+      nameRequiredError.classList.remove("hidden");
+      return false;
     }
+    nameRequiredError.classList.add("hidden");
+    return true;
+  }
+  onClickSaveButton = async (event) => {
+    if (this.validateEditForm()) {
+      try {
+        const countryNameInput = document.querySelector("[name='countryname']");
+  
+        const id = this.getQueryParams().id;
+        const country = {
+          id: id,
+          name: countryNameInput.value,
+        };
+  
+        await this.countryServices.updateCountry(country);
+        alert("Los datos fueron guardados");
+        window.location.href = "/countries";
+      } catch (error) {
+        errorHandler(
+          "El país no puede ser guardado en este momento, por favor intente nuevamente",
+          error
+        );
+      }
+    }
+    
   };
 
   renderCountry(countryDataList) {
@@ -47,15 +62,24 @@ class EditCountryController {
   }
   async init() {
     const params = this.getQueryParams();
+    const id = params.id;
     try {
-      const countryData = await this.countryServices.getCountries(params);
+      const countryData = await this.countryServices.getCountry(params.id);
       this.renderCountry(countryData);
 
       const countryInput = document.querySelector("[name='countryname']");
       countryInput.value = countryData.name;
     } catch (error) {
       errorHandler("Error en la busqueda,vualva a intentarlo luego", error);
+    } finally {
+      this.removeActivityIndicationMessage();
     }
+  }
+  removeActivityIndicationMessage() {
+    const waitingIndicationMessage = document.getElementById(
+      "Activity-indication-message"
+    );
+    waitingIndicationMessage.remove();
   }
 }
 
