@@ -43,7 +43,7 @@ class ListCountryController {
     }
   }
 
-  onClickEditButton= (event) => {
+  onClickEditButton = (event) => {
     const id = event.target.getAttribute("data-id");
     window.location.href = `http://localhost:8080/countries/edit/?id=${id}`;
   };
@@ -70,15 +70,21 @@ class ListCountryController {
       }
 
       this.renderCountries(countriesDataList);
-      this.removeWaitingMessageRow();
     } catch (error) {
       errorHandler("No podemos encontrar los datos, intente nuevamente", error);
+    } finally {
+      this.removeActivityIndicationMessage();
     }
   }
-  removeWaitingMessageRow() {
-    const waitingMessageRow = document.getElementById("waiting-message-row");
-    waitingMessageRow.remove();
+
+  removeActivityIndicationMessage() {
+    const waitingIndicationMessage = document.getElementById(
+      "waiting-message-row"
+    );
+    waitingIndicationMessage.remove();
+    
   }
+
 }
 
 const listCountryCtrl = new ListCountryController(new CountryServices());
