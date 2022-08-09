@@ -5,6 +5,11 @@ class CountryServices {
     return await response.json();
   }
 
+  async getCountry(id) {
+    const response = await fetch(`http://localhost:3000/api/country/${id}`);
+
+    return await response.json();
+  }
   async deleteCountry(id) {
     const response = await fetch(`http://localhost:3000/api/country/${id}`, {
       method: "DELETE",
