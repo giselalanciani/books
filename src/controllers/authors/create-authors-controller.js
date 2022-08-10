@@ -66,10 +66,57 @@ class CreateAuthorsController {
     }
   };
 
+  validateFieldRequired(fieldName) {
+    const authorNameInput = document.querySelector(`[name='${fieldName}']`);
+    const authorNameRequiredError = document.querySelector(
+      `[name='${fieldName}-required']`
+    );
+    if (authorNameInput.value == "") {
+      authorNameRequiredError.classList.remove("hidden");
+      return false;
+    }
+    authorNameRequiredError.classList.add("hidden");
+    return true;
+  }
+
+  validateCreateForm() {
+    let isFormValid = true;
+
+    if (this.validateFieldRequired("authorname") === false) {
+      isFormValid = false;
+    }
+    if (this.validateFieldRequired("year") === false) {
+      isFormValid = false;
+    }
+    if (this.validateFieldRequired("month") === false) {
+      isFormValid = false;
+    }
+    if (this.validateFieldRequired("day") === false) {
+      isFormValid = false;
+    }
+
+    return isFormValid;
+
+    // this.validateFieldRequired("authorname");
+
+    // this.validateFieldRequired("year");
+
+    // const yearNameInput = document.querySelector("[name='yearname']");
+    // const nameRequiredError = document.querySelector(
+    //   "[name='yearname-required']"
+    // );
+    // if (yearNameInput.value == "") {
+    //   nameRequiredError.classList.remove("hidden");
+    //   return false;
+    // }
+
+    // nameRequiredError.classList.add("hidden");
+    // return true;
+  }
+
   onClickCreateAuthorButton = () => {
-    if (this.sendAuthorsData() === true) {
-    } else {
-      console.log("NO ENVIAMOS DATA");
+    if (this.validateCreateForm() === true) {
+      this.sendAuthorsData();
     }
   };
 

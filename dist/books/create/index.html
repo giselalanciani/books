@@ -17,25 +17,29 @@
         <div class="field-container">
           <label for="bookname">Book name</label>
           <input type="text" name="bookname" />
+          <div class="error hidden" name="bookname-required">* Campo requerido</div>
         </div>
 
         <div class="field-container">
           <label for="year">Year</label>
           <input type="year" name="year" />
+          <div class="error hidden" name="year-required">* Campo requerido</div>
         </div>
 
         <div class="field-container">
           <label for="editorial">Editorial</label>
           <select name="editorial" id="editorial">
-            <option value="seleccione">seleccione..</option>
+            <option value="">seleccione..</option>
           </select>
+          <div class="error hidden" name="editorial-required">* Campo requerido</div>
         </div>
 
         <div class="field-container">
           <label for="authors">Authors</label>
           <select name="authors" id="authors">
-            <option value="seleccione">seleccione..</option>
+            <option value="">seleccione..</option>
           </select>
+          <div class="error hidden" name="authors-required">* Campo requerido</div>
         </div>
 
         <button id="create-book-button" type="button">Create</button>

@@ -64,21 +64,52 @@ class EditAuthorsController {
       const authorInput = document.querySelector("[name='authorname']");
       authorInput.value = authorData.name;
 
-      const birthdate = new Date(authorData.birthdate);  
+      const birthdate = new Date(authorData.birthdate);
 
       const yearSelect = document.querySelector("[name='year']");
       yearSelect.value = birthdate.getFullYear();
       const monthSelect = document.querySelector("[name='month']");
       monthSelect.value = birthdate.getMonth();
-      const daySelect = document.querySelector("[name='day']");      
+      const daySelect = document.querySelector("[name='day']");
       daySelect.value = birthdate.getDate();
-      
     } catch (error) {
       errorHandler(
         "No se pudo traer la informacion de autor, intente mas tarde",
         error
       );
     }
+  }
+
+  validateFieldRequired(fieldName) {
+    const editAuthorNameInput = document.querySelector(`[name='${fieldName}']`);
+    const editAuthorNameRequiredError = document.querySelector(
+      `[name='${fieldName}-required']`
+    );
+    if (editAuthorNameInput.value == "") {
+      editAuthorNameRequiredError.classList.remove("hidden");
+      return false;
+    }
+    editAuthorNameRequiredError.classList.add("hidden");
+    return true;
+  }
+
+  validateEditForm() {
+    let isFormValid = true;
+
+    if (this.validateFieldRequired("authorname") === false) {
+      isFormValid = false;
+    }
+    if (this.validateFieldRequired("year") === false) {
+      isFormValid = false;
+    }
+    if (this.validateFieldRequired("month") === false) {
+      isFormValid = false;
+    }
+    if (this.validateFieldRequired("day") === false) {
+      isFormValid = false;
+    }
+
+    return isFormValid;
   }
 
   renderDays = (daysDataList) => {
@@ -126,7 +157,7 @@ class EditAuthorsController {
       const monthOption = copyMonthTemplate.querySelector("option");
 
       monthOption.textContent = `${monthsDataList[i]}`;
-      monthOption.setAttribute("value", `${monthsDataList[i] -1}`);
+      monthOption.setAttribute("value", `${monthsDataList[i] - 1}`);
 
       authorMonthSelect.append(monthOption);
     }

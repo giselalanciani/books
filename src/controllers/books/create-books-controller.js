@@ -39,7 +39,9 @@ class CreateBooksController {
   }
 
   onClickCreateBookButton = () => {
-    this.sendData();
+    if (this.validateCreateBookForm() === true) {
+      this.sendData();
+    }
   };
 
   sendData = async () => {
@@ -63,6 +65,39 @@ class CreateBooksController {
       errorHandler("No se pudo craer su libro", error);
     }
   };
+
+  validateFieldRequired(fieldName) {
+    const bookNameInput = document.querySelector(`[name='${fieldName}']`);
+    const createBookNameRequiredError = document.querySelector(
+      `[name='${fieldName}-required']`
+    );
+    if (bookNameInput.value == "") {
+      createBookNameRequiredError.classList.remove("hidden");
+      return false;
+    }
+    createBookNameRequiredError.classList.add("hidden");
+    return true;
+  }
+
+  validateCreateBookForm() {
+    let isFormValid = true;
+
+    if (this.validateFieldRequired("bookname") === false) {
+      isFormValid = false;
+    }
+    if (this.validateFieldRequired("year") === false) {
+      isFormValid = false;
+    }
+    
+    if (this.validateFieldRequired("editorial") === false) {
+      isFormValid = false;
+    }
+    if (this.validateFieldRequired("authors") === false) {
+      isFormValid = false;
+    }
+
+    return isFormValid;
+  }
 
   async init() {
     try {

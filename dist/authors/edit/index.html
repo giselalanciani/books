@@ -13,10 +13,13 @@
       <h1>Edit author</h1>
     </header>
 
-    <form name="edit-author-form">
+    <form autocomplete="off" name="edit-author-form">
       <div class="field-container">
         <label for="authorname">Author name</label>
         <input type="text" name="authorname" />
+        <div class="error hidden" name="authorname-required">
+          * Campo requerido
+        </div>
       </div>
 
       <div class="field-container">
@@ -24,6 +27,7 @@
         <select name="year" id="year">
           <option value="">seleccione..</option>
         </select>
+        <div class="error hidden" name="year-required">* Campo requerido</div>
       </div>
 
       <div class="field-container">
@@ -31,6 +35,7 @@
         <select name="month" id="month">
           <option value="">seleccione..</option>
         </select>
+        <div class="error hidden" name="month-required">* Campo requerido</div>
       </div>
 
       <div class="field-container">
@@ -38,6 +43,7 @@
         <select name="day" id="day">
           <option value="">seleccione..</option>
         </select>
+        <div class="error hidden" name="day-required">* Campo requerido</div>
       </div>
 
       <button id="save-author-button" type="button">Save</button>
