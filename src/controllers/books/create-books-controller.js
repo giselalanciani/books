@@ -1,7 +1,9 @@
 import { AuthorsService } from "../../services/authors-service";
 import { BookService } from "../../services/book-service";
 import { EditorialService } from "../../services/editorial-service";
+import { configureValidator } from "../../utils/configureValidator";
 import { errorHandler } from "../../utils/error-handler";
+import { validateFieldRequired } from "../../utils/validateFieldRequired";
 
 /**
  * 1) El boton salvar
@@ -36,7 +38,12 @@ class CreateBooksController {
 
     const createBookButton = document.getElementById("create-book-button");
     createBookButton.addEventListener("click", this.onClickCreateBookButton);
-  }
+
+    configureValidator("bookname");
+    configureValidator("year");
+    configureValidator("editorial");
+    configureValidator("authors");
+  }  
 
   onClickCreateBookButton = () => {
     if (this.validateCreateBookForm() === true) {
@@ -66,33 +73,20 @@ class CreateBooksController {
     }
   };
 
-  validateFieldRequired(fieldName) {
-    const bookNameInput = document.querySelector(`[name='${fieldName}']`);
-    const createBookNameRequiredError = document.querySelector(
-      `[name='${fieldName}-required']`
-    );
-    if (bookNameInput.value == "") {
-      createBookNameRequiredError.classList.remove("hidden");
-      return false;
-    }
-    createBookNameRequiredError.classList.add("hidden");
-    return true;
-  }
-
   validateCreateBookForm() {
     let isFormValid = true;
 
-    if (this.validateFieldRequired("bookname") === false) {
+    if (validateFieldRequired("bookname") === false) {
       isFormValid = false;
     }
-    if (this.validateFieldRequired("year") === false) {
+    if (validateFieldRequired("year") === false) {
       isFormValid = false;
     }
-    
-    if (this.validateFieldRequired("editorial") === false) {
+
+    if (validateFieldRequired("editorial") === false) {
       isFormValid = false;
     }
-    if (this.validateFieldRequired("authors") === false) {
+    if (validateFieldRequired("authors") === false) {
       isFormValid = false;
     }
 

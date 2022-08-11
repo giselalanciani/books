@@ -1,7 +1,9 @@
 import { AuthorsService } from "../../services/authors-service";
 import { BookService } from "../../services/book-service";
 import { EditorialService } from "../../services/editorial-service";
+import { configureValidator } from "../../utils/configureValidator";
 import { errorHandler } from "../../utils/error-handler";
+import { validateFieldRequired } from "../../utils/validateFieldRequired";
 
 class EditBooksController {
   editorialService;
@@ -15,6 +17,11 @@ class EditBooksController {
 
     const saveButton = document.getElementById("save-book-button");
     saveButton.addEventListener("click", this.onClickSaveButton);
+
+    configureValidator("bookname");
+    configureValidator("year");
+    configureValidator("editorial");
+    configureValidator("authors");
   }
 
   getQueryParams() {
@@ -24,32 +31,54 @@ class EditBooksController {
   }
 
   onClickSaveButton = async (event) => {
-    try {
-      const bookNameInput = document.querySelector("[name='bookname']");
-      const bookYearInput = document.querySelector("[name='year']");
-      const authorsSelectorInput = document.querySelector("[name='authors']");
-      const editorialSelectorInput =
-        document.querySelector("[name='editorial']");
+    if (this.validateEditBookForm()) {
+      try {
+        const bookNameInput = document.querySelector("[name='bookname']");
+        const bookYearInput = document.querySelector("[name='year']");
+        const authorsSelectorInput = document.querySelector("[name='authors']");
+        const editorialSelectorInput =
+          document.querySelector("[name='editorial']");
 
-      const book = {
-        name: bookNameInput.value,
-        year: bookYearInput.value,
-        author: authorsSelectorInput.value,
-        editorial: editorialSelectorInput.value,
-      };
+        const book = {
+          name: bookNameInput.value,
+          year: bookYearInput.value,
+          author: authorsSelectorInput.value,
+          editorial: editorialSelectorInput.value,
+        };
 
-      const id = this.getQueryParams().id;
+        const id = this.getQueryParams().id;
 
-      await this.bookService.updateBook(id, book);
-      alert('Los datos fueron guardados');
-      window.location.href = "/books";
-    } catch (error) {
-      errorHandler(
-        "Su libro no pudo ser guardado correctamente, por favor intente nuevamente",
-        error
-      );
+        await this.bookService.updateBook(id, book);
+        alert("Los datos fueron guardados");
+        window.location.href = "/books";
+      } catch (error) {
+        errorHandler(
+          "Su libro no pudo ser guardado correctamente, por favor intente nuevamente",
+          error
+        );
+      }
     }
   };
+
+  validateEditBookForm() {
+    let isFormValid = true;
+
+    if (validateFieldRequired("bookname") === false) {
+      isFormValid = false;
+    }
+    if (validateFieldRequired("year") === false) {
+      isFormValid = false;
+    }
+
+    if (validateFieldRequired("editorial") === false) {
+      isFormValid = false;
+    }
+    if (validateFieldRequired("authors") === false) {
+      isFormValid = false;
+    }
+
+    return isFormValid;
+  }
 
   renderAuthors(authorsDataList) {
     const authorsSelect = document.getElementById("authors");
@@ -112,12 +141,11 @@ class EditBooksController {
       authorsSelect.value = bookData.author;
       const editorialSelect = document.querySelector("[name='editorial']");
       editorialSelect.value = bookData.editorial;
-      
     } catch (error) {
       errorHandler("error al encontrar la data", error);
     } finally {
       this.removeActivityIndicationMessage();
-    }        
+    }
   }
 
   removeActivityIndicationMessage() {

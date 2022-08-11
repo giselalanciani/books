@@ -16,10 +16,12 @@
       <p id="Activity-indication-message">
         Espere por favor, cargando datos...
       </p>
-      <form class="hidden" name="edit-book-form">
+      <form autocomplete="off" class="hidden" name="edit-book-form">
         <div class="field-container">
           <label for="bookname">Book name</label>
           <input type="text" name="bookname" />
+          <div class="error hidden" name="bookname-required">* Campo requerido</div>
+
           <label for="year">Year</label>
           <input type="year" name="year" />
           <div class="error hidden" name="year-required">* Campo requerido</div>
@@ -28,18 +30,18 @@
         <div class="field-container">
           <label for="editorial">editorial</label>
           <select name="editorial" id="editorial">
-            <option value="seleccione">seleccione..</option>
+            <option value="">seleccione..</option>
           </select>
-          <div class="error hidden" name="year-required">* Campo requerido</div>
+          <div class="error hidden" name="editorial-required">* Campo requerido</div>
         </div>
 
         <div class="field-container">
           <label for="authors">authors</label>
 
           <select name="authors" id="authors">
-            <option value="seleccione">seleccione..</option>
+            <option value="">seleccione..</option>
           </select>
-          <div class="error hidden" name="year-required">* Campo requerido</div>1
+          <div class="error hidden" name="authors-required">* Campo requerido</div>
         </div>
 
         <button id="save-book-button" type="button">Save</button>
