@@ -1,5 +1,6 @@
 import { AuthorsService } from "../../services/authors-service";
 import { DateService } from "../../services/date-service";
+import { configureValidator } from "../../utils/configureValidator";
 import { errorHandler } from "../../utils/error-handler";
 
 class EditAuthorsController {
@@ -11,6 +12,12 @@ class EditAuthorsController {
 
     const saveButton = document.getElementById("save-author-button");
     saveButton.addEventListener("click", this.onClickSaveButton);
+
+    configureValidator("authorname");
+    configureValidator("year");
+    configureValidator("month");
+    configureValidator("day");
+
   }
 
   getQueryParams() {
@@ -20,6 +27,7 @@ class EditAuthorsController {
   }
 
   onClickSaveButton = async (event) => {
+    if (this.validateEditAuthorsForm() === true) {
     const authorInput = document.querySelector("[name='authorname']");
     const yearSelect = document.querySelector("[name='year']");
     const monthSelect = document.querySelector("[name='month']");
@@ -42,6 +50,7 @@ class EditAuthorsController {
     } catch (error) {
       errorHandler("No se pudo guardar autor");
     }
+  }
   };
 
   async init() {
@@ -80,32 +89,19 @@ class EditAuthorsController {
     }
   }
 
-  validateFieldRequired(fieldName) {
-    const editAuthorNameInput = document.querySelector(`[name='${fieldName}']`);
-    const editAuthorNameRequiredError = document.querySelector(
-      `[name='${fieldName}-required']`
-    );
-    if (editAuthorNameInput.value == "") {
-      editAuthorNameRequiredError.classList.remove("hidden");
-      return false;
-    }
-    editAuthorNameRequiredError.classList.add("hidden");
-    return true;
-  }
-
-  validateEditForm() {
+  validateEditAuthorsForm() {
     let isFormValid = true;
 
-    if (this.validateFieldRequired("authorname") === false) {
+    if (validateFieldRequired("authorname") === false) {
       isFormValid = false;
     }
-    if (this.validateFieldRequired("year") === false) {
+    if (validateFieldRequired("year") === false) {
       isFormValid = false;
     }
-    if (this.validateFieldRequired("month") === false) {
+    if (validateFieldRequired("month") === false) {
       isFormValid = false;
     }
-    if (this.validateFieldRequired("day") === false) {
+    if (validateFieldRequired("day") === false) {
       isFormValid = false;
     }
 
