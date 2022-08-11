@@ -1,5 +1,7 @@
 import { EditorialService } from "../../services/editorial-service";
+import { configureValidator } from "../../utils/configureValidator";
 import { errorHandler } from "../../utils/error-handler";
+import { validateFieldRequired } from "../../utils/validateFieldRequired";
 
 class EditEditorialController {
   constructor(editorialService) {
@@ -9,6 +11,8 @@ class EditEditorialController {
 
     const saveButton = document.getElementById("save-editorial-button");
     saveButton.addEventListener("click", this.onClickSaveButton);
+
+    configureValidator("editorialname");
   }
 
   getQueryParams() {
@@ -18,6 +22,7 @@ class EditEditorialController {
   }
 
   onClickSaveButton = async (event) => {
+    if (this.validateEditEditorialForm() === true) {
     const editorialInput = document.querySelector("[name='editorialname']");
 
     const editorial = {
@@ -34,7 +39,20 @@ class EditEditorialController {
     } catch (error) {
       errorHandler("No se pudo guardar su libro", error);
     }
+  }
   };
+
+  validateEditEditorialForm() {
+    let isFormValid = true;
+
+    if (validateFieldRequired("editorialname") === false) {
+      isFormValid = false;
+    }
+
+    return isFormValid;
+  }
+
+
 
   renderEditorial(editorialDataList) {
     const editorialSelect = document.getElementById("editorialname");

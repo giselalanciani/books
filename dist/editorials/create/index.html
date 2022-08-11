@@ -15,10 +15,11 @@
     </header>
 
     <main>
-      <form name="create-editorial-form">
+      <form autocomplete="off" name="create-editorial-form">
         <div class="field-container">
           <label for="editorialname">Editorial name</label>
           <input type="text" name="editorialname" />
+          <div class="error hidden" name="editorialname-required">* Campo requerido</div>
         </div>
 
         <button id="create-editorial-button" type="button">Create</button>

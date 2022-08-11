@@ -14,10 +14,11 @@
       <h1>Edit editorial</h1>
     </header>
 
-    <form name="edit-editorial-form">
+    <form autocomplete="off" name="edit-editorial-form">
       <div class="field-container">
         <label for="editorialname">Editorial name</label>
         <input type="text" name="editorialname" />
+        <div class="error hidden" name="editorialname-required">* Campo requerido</div>
       </div>
       <template id="editorial-template"></template>
 

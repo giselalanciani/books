@@ -1,5 +1,7 @@
 import { EditorialService } from "../../services/editorial-service";
+import { configureValidator } from "../../utils/configureValidator";
 import { errorHandler } from "../../utils/error-handler";
+import { validateFieldRequired } from "../../utils/validateFieldRequired";
 
 class CreateEditorialController {
   editorialService;
@@ -13,14 +15,28 @@ class CreateEditorialController {
       "click",
       this.onClickCreateEditorialButton
     );
+
+    configureValidator("editorialname");
   }
   onClickCreateEditorialButton = () => {
+    if (this.validateCreateEditorialForm() === true) {
     console.log("hizo click");
     if (this.sendEditorialData() === true) {
     } else {
       console.log("NO ENVIAMOS DATA");
     }
+  }
   };
+
+  validateCreateEditorialForm() {
+    let isFormValid = true;
+
+    if (validateFieldRequired("editorialname") === false) {
+      isFormValid = false;
+    }
+
+    return isFormValid;
+  }
 
   sendEditorialData = async () => {
     const editorialNameInput = document.querySelector("[name='editorialname']");
@@ -37,8 +53,6 @@ class CreateEditorialController {
       errorHandler("No se pudo crear su editorial, intente mas tarde.", error);
     }
   };
-
-  
 
   renderCreateEditorial(editorialDataList) {
     const editorialCreateSelect = document.getElementById("editorialname");
@@ -59,5 +73,3 @@ class CreateEditorialController {
 const createEditorialCtrl = new CreateEditorialController(
   new EditorialService()
 );
-
-
