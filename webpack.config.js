@@ -16,7 +16,10 @@ module.exports = {
     editAuthorsBundle: "./src/controllers/authors/edit-authors-controller.js",
     countriesBundle: "./src/controllers/countries/list-country-controller.js",
     createCountryBundle:"./src/controllers/countries/create-country-controller.js",
-    editCountryBundle:"./src/controllers/countries/edit-country-controller.js"    
+    editCountryBundle:"./src/controllers/countries/edit-country-controller.js",
+    statesBundle:"./src/controllers/states/list-state-controller.js", 
+    createStatesBundle:"./src/controllers/states/create-state-controller.js", 
+    editStatesBundle:"./src/controllers/states/edit-state-controller.js",    
    
   },
   output: {
