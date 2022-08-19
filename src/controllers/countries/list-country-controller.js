@@ -1,17 +1,28 @@
 import { CountryServices } from "../../services/country-service";
+import { StateService } from "../../services/states-service";
 import { errorHandler } from "../../utils/error-handler";
 
 class ListCountryController {
   countryService;
-  constructor(countryService) {
+  stateService;
+  constructor(countryService, stateService) {
     this.countryService = countryService;
+    this.stateService = stateService;
     const createButton = document.getElementById("create-button");
-    createButton.addEventListener("click", this.onClickCreateButton);
+    createButton.addEventListener("click", this.onClickCreateButton);    
+  }
+
+  onClickStatesButton() {
+    console.log("hizo click")
   }
 
   onClickCreateButton() {
     window.location.href = "/countries/create";
   }
+
+ 
+
+ 
 
   renderCountries(countriesList) {
     const countryTable = document.getElementById("country-table");
@@ -39,7 +50,9 @@ class ListCountryController {
       deleteCountryButton.setAttribute("data-id", countriesList[i].id);
       deleteCountryButton.addEventListener("click", this.onClickDeleteButton);
 
-      countryTable.append(copyRowTemplate);
+      const statesButton = copyRowTemplate.querySelector("[name='states-button']");
+      statesButton.addEventListener("click", this.onClickStatesButton);      
+      countryTable.append(copyRowTemplate);      
     }
   }
 
@@ -82,10 +95,8 @@ class ListCountryController {
       "waiting-message-row"
     );
     waitingIndicationMessage.remove();
-    
   }
-
 }
 
-const listCountryCtrl = new ListCountryController(new CountryServices());
+const listCountryCtrl = new ListCountryController(new CountryServices(), new StateService());
 listCountryCtrl.init();
