@@ -9,20 +9,17 @@ class ListCountryController {
     this.countryService = countryService;
     this.stateService = stateService;
     const createButton = document.getElementById("create-button");
-    createButton.addEventListener("click", this.onClickCreateButton);    
+    createButton.addEventListener("click", this.onClickCreateButton);
   }
 
-  onClickStatesButton() {
-    console.log("hizo click")
+  onClickStatesButton(event) {    
+    const countryId = event.target.getAttribute('data-country-id');
+    window.location.href = `/states/?countryId=${countryId}`;    
   }
 
   onClickCreateButton() {
     window.location.href = "/countries/create";
   }
-
- 
-
- 
 
   renderCountries(countriesList) {
     const countryTable = document.getElementById("country-table");
@@ -50,9 +47,12 @@ class ListCountryController {
       deleteCountryButton.setAttribute("data-id", countriesList[i].id);
       deleteCountryButton.addEventListener("click", this.onClickDeleteButton);
 
-      const statesButton = copyRowTemplate.querySelector("[name='states-button']");
-      statesButton.addEventListener("click", this.onClickStatesButton);      
-      countryTable.append(copyRowTemplate);      
+      const statesButton = copyRowTemplate.querySelector(
+        "[name='states-button']"
+      );      
+      statesButton.setAttribute("data-country-id", countriesList[i].id);
+      statesButton.addEventListener("click", this.onClickStatesButton);
+      countryTable.append(copyRowTemplate);
     }
   }
 
@@ -98,5 +98,8 @@ class ListCountryController {
   }
 }
 
-const listCountryCtrl = new ListCountryController(new CountryServices(), new StateService());
+const listCountryCtrl = new ListCountryController(
+  new CountryServices(),
+  new StateService()
+);
 listCountryCtrl.init();
