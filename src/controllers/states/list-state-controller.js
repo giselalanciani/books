@@ -1,6 +1,7 @@
 import { CountryServices } from "../../services/country-service";
 import { StateService } from "../../services/states-service";
 import { errorHandler } from "../../utils/error-handler";
+import { getQueryParams } from "../../utils/getQueryParams";
 import { validateFieldRequired } from "../../utils/validateFieldRequired";
 
 class ListStatesController {
@@ -27,11 +28,7 @@ class ListStatesController {
   };
 
   onClickDeleteButton = async (event) => {
-    if (
-      confirm(
-        `Desea eliminar el estado?`
-      ) == true
-    )
+    if (confirm(`Desea eliminar el estado?`) == true)
       try {
         const stateId = event.target.getAttribute("data-id");
         const countryId = event.target.getAttribute("data-country-id");
@@ -63,6 +60,7 @@ class ListStatesController {
     if (countryId) {
       stateTable.classList.remove("hidden");
       try {
+        this.deleteTableRows();
         const elementWaitingMessageRowMessage = document.querySelector(
           "#waiting-message-row"
         );
@@ -89,19 +87,22 @@ class ListStatesController {
     }
   };
 
-  renderStates(statesList) {
+  deleteTableRows () {
     const stateTable = document.getElementById("state-table");
-    const stateRowTemplate = document.getElementById("state-row-template");
     const tableTrs = stateTable.querySelectorAll("tr");
-
     tableTrs.forEach((tr) => {
-      if (tr.id === "no-states-available" || tr.id === "waiting-message-row") {
+      if (tr.id === "no-states-available" || tr.id === "waiting-message-row" || tr.id === "table-header") {
         console.log("no elimina", tr.id);
       } else {
         tr.remove();
       }
     });
+  }
 
+  renderStates(statesList) {
+    const stateTable = document.getElementById("state-table");
+    const stateRowTemplate = document.getElementById("state-row-template");    
+    
     for (let i = 0; i < statesList.length; i++) {
       const copyRowTemplate = document.importNode(
         stateRowTemplate.content,
@@ -149,6 +150,11 @@ class ListStatesController {
       newStateOption.setAttribute("value", `${countryDataList[i].id}`);
       countrySelect.append(newStateOption);
     }
+
+    const params = getQueryParams();
+    const countryId = params.countryId;
+    countrySelect.value = countryId;
+    countrySelect.dispatchEvent(new Event("change"));
   }
 
   async init() {
