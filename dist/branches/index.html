@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Branches</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <header>
+      <a href="/">Home</a>
+      <h1>Branches</h1>
+    </header>
+    <main>
+      <button id="create-button" type="button">Create</button>
+      <table id="branches-table">
+        <tr>
+          <th>Name</th>
+          <th>Country</th>
+          <th>State</th>
+          <th>City</th>
+          <th>Street</th>
+        </tr>
+        <tr class="hidden" id="no-branches-available">
+          <td colspan="5">No branches available</td>
+        </tr>
+        <tr id="waiting-message-row">
+          <td colspan="5">Espere por favor, cargando datos...</td>
+        </tr>
+      </table>
+    </main>
+    <script src="/assets/scripts/branchesBundle.js"></script>
+  </body>
+</html>

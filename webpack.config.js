@@ -19,7 +19,9 @@ module.exports = {
     editCountryBundle:"./src/controllers/countries/edit-country-controller.js",
     statesBundle:"./src/controllers/states/list-state-controller.js", 
     createStatesBundle:"./src/controllers/states/create-state-controller.js", 
-    editStatesBundle:"./src/controllers/states/edit-state-controller.js",    
+    editStatesBundle:"./src/controllers/states/edit-state-controller.js", 
+    branchesBundle:"./src/controllers/branches/list-branches-controller.js",    
+    createBranchesBundle:"./src/controllers/branches/create-branches-controller.js",   
    
   },
   output: {
