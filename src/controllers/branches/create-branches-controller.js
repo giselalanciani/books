@@ -1,5 +1,6 @@
 import { CountryServices } from "../../services/country-service";
 import { StateService } from "../../services/states-service";
+import { configureValidator } from "../../utils/configureValidator";
 
 import { errorHandler } from "../../utils/error-handler";
 import { getQueryParams } from "../../utils/getQueryParams";
@@ -26,17 +27,16 @@ class CreateBrunchesController {
 
   onChangeCountrySelect = async (event) => {
     console.log("anda", event.target.value);
-    const stateData = this.stateService.getStates(countryId)
-    const params = getQueryParams();
-    const countryId = params.countryId;
+    const countryId = event.target.value;
+    const stateData = await this.stateService.getStates(countryId);
+    console.log("state data", stateData);
+    this.renderStates(stateData);
   };
 
   async init() {
     try {
       const countryData = await this.countryService.getCountries();
-      //   const stateData = await this.stateService.getStates();
       this.renderCountries(countryData);
-      // this.renderStates(stateData);
     } catch (error) {
       errorHandler("error al sincronizar datos", error);
     }
@@ -61,25 +61,25 @@ class CreateBrunchesController {
     }
   }
 
-  //  renderStates(statesDataList) {
-  //     const statesSelect = document.getElementById("states");
+  renderStates(statesDataList) {
+    const statesSelect = document.getElementById("state");
 
-  //     const statesOptionTemplate = document.getElementById(
-  //       "states-option-template"
-  //     );
+    const statesOptionTemplate = document.getElementById(
+      "states-option-template"
+    );
 
-  //     for (let i = 0; i < statesDataList.length; i++) {
-  //       const copyStatesOptionTemplate = document.importNode(
-  //         statesOptionTemplate.content,
-  //         true
-  //       );
-  //       const newStateOption = copyStatesOptionTemplate.querySelector("option");
+    for (let i = 0; i < statesDataList.length; i++) {
+      const copyStatesOptionTemplate = document.importNode(
+        statesOptionTemplate.content,
+        true
+      );
+      const newStateOption = copyStatesOptionTemplate.querySelector("option");
 
-  //       newStateOption.textContent = `${statesDataList[i].name}`;
-  //       newStateOption.setAttribute("value", `${statesDataList[i].id}`);
-  //       statesSelect.append(newStateOption);
-  //     }
-  //   }
+      newStateOption.textContent = `${statesDataList[i].name}`;
+      newStateOption.setAttribute("value", `${statesDataList[i].id}`);
+      statesSelect.append(newStateOption);
+    }
+  }
 }
 
 const createBrunchesCtrl = new CreateBrunchesController(
