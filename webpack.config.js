@@ -21,7 +21,8 @@ module.exports = {
     createStatesBundle:"./src/controllers/states/create-state-controller.js", 
     editStatesBundle:"./src/controllers/states/edit-state-controller.js", 
     branchesBundle:"./src/controllers/branches/list-branches-controller.js",    
-    createBranchesBundle:"./src/controllers/branches/create-branches-controller.js",   
+    createBranchesBundle:"./src/controllers/branches/create-branches-controller.js",
+    editBranchesBundle:"./src/controllers/branches/edit-branches-controller.js",   
    
   },
   output: {

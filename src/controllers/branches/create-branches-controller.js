@@ -34,7 +34,7 @@ class CreateBrunchesController {
     if (this.validateCreateBranchesForm() === true) {
       this.sendBranchData();
     }
-    window.location.href = "/branches/";
+   
   };
 
   validateCreateBranchesForm() {
