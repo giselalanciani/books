@@ -68,7 +68,7 @@ class ListBooksController {
 
   async init() {
     try {
-      const booksDataList = await this.bookService.getBooks();      
+      const booksDataList = await this.bookService.getBooks();
       if (booksDataList.length === 0) {
         const elementNoBooksAvailableMessage = document.querySelector(
           "#no-books-available"
@@ -110,7 +110,7 @@ class ListBooksController {
 
       const editorialInput =
         copyRowTemplate.querySelector("[name='editorial']");
-        
+
       const editorialName = this.findEditorialNameById(
         booksData[i].editorial,
         editorialsData
