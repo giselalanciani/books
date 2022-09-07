@@ -25,11 +25,13 @@ button {
   font-size: 16px;
 }
 
-a:link, a:visited {
-  color: dodgerblue;  
+a:link,
+a:visited {
+  color: dodgerblue;
 }
 
-a:hover, a:active {
+a:hover,
+a:active {
   color: darkblue;
 }
 
@@ -70,4 +72,10 @@ form button {
 ********/
 table button {
   min-width: 50px;
+}
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }

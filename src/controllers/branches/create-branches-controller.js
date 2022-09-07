@@ -34,7 +34,6 @@ class CreateBrunchesController {
     if (this.validateCreateBranchesForm() === true) {
       this.sendBranchData();
     }
-   
   };
 
   validateCreateBranchesForm() {
@@ -87,11 +86,25 @@ class CreateBrunchesController {
 
   onChangeCountrySelect = async (event) => {
     console.log("anda", event.target.value);
+    this.deleteStateSelectOptions();
     const countryId = event.target.value;
-    const stateData = await this.stateService.getStates(countryId);
-    console.log("state data", stateData);
-    this.renderStates(stateData);
+    if (countryId !== "") {
+      const stateData = await this.stateService.getStates(countryId);
+      this.renderStates(stateData);
+    }
   };
+
+  deleteStateSelectOptions() {
+    const stateSelect = document.getElementById("state");
+    const selectOptions = stateSelect.querySelectorAll("option");
+    selectOptions.forEach((option) => {
+      if (option.id === "select-state") {
+        console.log("no elimina", option.id);
+      } else {
+        option.remove();
+      }
+    });
+  }
 
   async init() {
     try {
@@ -113,11 +126,11 @@ class CreateBrunchesController {
         true
       );
 
-      const newStateOption = copyCountryTemplate.querySelector("option");
+      const newCountryOption = copyCountryTemplate.querySelector("option");
 
-      newStateOption.textContent = `${countryDataList[i].name}`;
-      newStateOption.setAttribute("value", `${countryDataList[i].id}`);
-      countrySelect.append(newStateOption);
+      newCountryOption.textContent = `${countryDataList[i].name}`;
+      newCountryOption.setAttribute("value", `${countryDataList[i].id}`);
+      countrySelect.append(newCountryOption);
     }
   }
 
