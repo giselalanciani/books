@@ -43,6 +43,7 @@ class CreateBooksController {
     configureValidator("year");
     configureValidator("editorial");
     configureValidator("authors");
+    configureValidator("stock", ['numeric']);
   }  
 
   onClickCreateBookButton = () => {
@@ -57,12 +58,14 @@ class CreateBooksController {
       const bookYearInput = document.querySelector("[name='year']");
       const authorSelector = document.querySelector("[name='authors']");
       const editorialSelector = document.querySelector("[name='editorial']");
+      const stockInput = document.querySelector("[name='stock']");
 
       const book = {
         name: bookNameInput.value,
         year: bookYearInput.value,
         author: authorSelector.value,
         editorial: editorialSelector.value,
+        stock: stockInput.value,
       };
 
       await this.bookService.createBook(book);
@@ -87,6 +90,9 @@ class CreateBooksController {
       isFormValid = false;
     }
     if (validateFieldRequired("authors") === false) {
+      isFormValid = false;
+    }
+    if (validateFieldRequired("stock") === false) {
       isFormValid = false;
     }
 

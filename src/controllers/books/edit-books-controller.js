@@ -21,7 +21,9 @@ class EditBooksController {
     configureValidator("bookname");
     configureValidator("year");
     configureValidator("editorial");
-    configureValidator("authors");
+    configureValidator("authors");    
+
+    configureValidator("stock", ['required', 'numeric']);
   }
 
   getQueryParams() {
@@ -35,6 +37,7 @@ class EditBooksController {
       try {
         const bookNameInput = document.querySelector("[name='bookname']");
         const bookYearInput = document.querySelector("[name='year']");
+        const stockInput = document.querySelector("[name='stock']");
         const authorsSelectorInput = document.querySelector("[name='authors']");
         const editorialSelectorInput =
           document.querySelector("[name='editorial']");
@@ -44,6 +47,7 @@ class EditBooksController {
           year: bookYearInput.value,
           author: authorsSelectorInput.value,
           editorial: editorialSelectorInput.value,
+          stock: stockInput.value,
         };
 
         const id = this.getQueryParams().id;
@@ -74,6 +78,9 @@ class EditBooksController {
       isFormValid = false;
     }
     if (validateFieldRequired("authors") === false) {
+      isFormValid = false;
+    }
+    if (validateFieldRequired("stock") === false) {
       isFormValid = false;
     }
 
@@ -137,6 +144,8 @@ class EditBooksController {
       bookInput.value = bookData.name;
       const yearInput = document.querySelector("[name='year']");
       yearInput.value = bookData.year;
+      const stockInput = document.querySelector("[name='stock']");
+      stockInput.value = bookData.stock;
       const authorsSelect = document.querySelector("[name='authors']");
       authorsSelect.value = bookData.author;
       const editorialSelect = document.querySelector("[name='editorial']");

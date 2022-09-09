@@ -108,6 +108,9 @@ class ListBooksController {
       const authorInput = copyRowTemplate.querySelector("[name='author']");
       authorInput.textContent = booksData[i].author;
 
+      const stockInput = copyRowTemplate.querySelector("[name='stock']");
+      stockInput.textContent = booksData[i].stock;
+
       const editorialInput =
         copyRowTemplate.querySelector("[name='editorial']");
 

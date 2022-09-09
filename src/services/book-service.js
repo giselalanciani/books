@@ -35,6 +35,7 @@ class BookService {
         year: book.year,
         author: book.author,
         editorial: book.editorial,
+        stock: book.stock,
       }),
     });
     return response;
@@ -53,6 +54,7 @@ class BookService {
         year: book.year,
         author: book.author,
         editorial: book.editorial,
+        stock: book.stock,
       }),
     });
     return response;

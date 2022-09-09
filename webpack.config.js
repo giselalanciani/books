@@ -23,6 +23,7 @@ module.exports = {
     branchesBundle:"./src/controllers/branches/list-branches-controller.js",    
     createBranchesBundle:"./src/controllers/branches/create-branches-controller.js",
     editBranchesBundle:"./src/controllers/branches/edit-branches-controller.js",   
+     
    
   },
   output: {
